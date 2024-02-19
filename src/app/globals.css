@@ -1,0 +1,39 @@
+/* THEME FONTS */
+
+/* SANS-SERIF */
+/* POPPINS */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+/* OPEN SANS */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&display=swap");
+
+/* LATO */
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&display=swap");
+
+/* INTER */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
+/* SERIF */
+
+/* LIBRE BASKERSVILLE */
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap");
+
+/* MERRIWEATHER */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap");
+
+/* LIBRE BODONI */
+@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600&display=swap");
+
+/* EB GARAMOND */
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-slate-800;
+    font-family: "Inter", "Poppins", "Open Sans", "Lato", sans-serif;
+  }
+}
