@@ -1,4 +1,7 @@
 import React from "react";
+import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
+import ThemeSwitch from "./ThemeSwitch";
 
 interface NavItem {
   label: string;
@@ -33,6 +36,9 @@ function Navbar() {
               alt="Mastermind logo"
             />
           </picture>
+        </div>
+        <div>
+          <ThemeSwitch /> {/* NEEDS SOME TAYLORING YET*/}
         </div>
       </div>
     </header>

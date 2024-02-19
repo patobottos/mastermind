@@ -7,5 +7,9 @@ export default function ThemeClient({
 }: {
   children: React.ReactNode;
 }) {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {children}
+    </ThemeProvider>
+  );
 }

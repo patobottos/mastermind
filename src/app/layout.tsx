@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ThemeClient from "./providers";
 
 /* THEME FONTS */
 import {
@@ -12,7 +13,6 @@ import {
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ThemeClient from "./providers";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
