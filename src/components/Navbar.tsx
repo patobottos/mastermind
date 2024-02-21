@@ -1,44 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import ThemeSwitch from "./ThemeSwitch";
+import Link from "next/link";
+import { FaHouse, FaCircleInfo, FaRankingStar } from "react-icons/fa6";
 
 interface NavItem {
   label: string;
   page: string;
+  icon: React.ReactNode;
 }
 
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Home",
-    page: "home",
+    page: "./",
+    icon: <FaHouse className="h-5 w-5" />,
   },
   {
     label: "Rules",
-    page: "rules",
+    page: "/rules",
+    icon: <FaCircleInfo className="h-5 w-5" />,
   },
   {
     label: "Ranking",
-    page: "ranking",
+    page: "/ranking",
+    icon: <FaRankingStar className="h-5 w-5" />,
   },
 ];
 
 function Navbar() {
   return (
-    <header className="w-full mx-auto border-b px-4">
-      <div></div>
-      <div className="flex justify-center items-end mx-auto py-4 w-[60vw] relative">
-        <div className="mx-2">
-          <picture>
-            <img
-              className="min-h-max h-[3.5rem] xxs:h-[2rem] xs:h-[2rem] sm:h-[2.25rem] md:h-[2.5rem]"
-              src="./mastermind_iso_darkmode.png"
-              alt="Mastermind logo"
-            />
-          </picture>
-        </div>
+    <header className="w-full mx-auto border-b p-4 flex items-center">
+      <div className="flex justify-between items-end mx-auto w-[80vw] relative">
+        {/* LOGO */}
         <div>
-          <ThemeSwitch /> {/* NEEDS SOME TAYLORING YET*/}
+          <Link href="/">
+            <picture>
+              <img
+                className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
+                src="./mastermind_iso_darkmode.png"
+                alt="Mastermind logo"
+              />
+            </picture>
+          </Link>
+        </div>
+
+        {/* MENU */}
+        <div className="flex items-center space-x-2">
+          <ul className="flex items-center p-1">
+            {NAV_ITEMS.map((item, index) => {
+              return (
+                <li key={index} className="mx-2">
+                  <Link href={item.page}>{item.icon}</Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* MODE SWITCHER */}
+          <ThemeSwitch />
         </div>
       </div>
     </header>
