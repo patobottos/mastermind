@@ -12,21 +12,21 @@ function Circle({ size, color }: CircleProps) {
 
   const colorVariants: { [key: string]: string } = {
     crimson: "bg-crimson",
-    sunrise: " bg-sunrise",
-    sunny: " bg-sunny",
-    emerald: " bg-emerald",
-    azure: " bg-azure",
-    velvet: " bg-velvet",
-    sky: " bg-sky",
-    rosy: " bg-rosy",
-    miss: " bg-transparent",
+    sunrise: "bg-sunrise",
+    sunny: "bg-sunny",
+    emerald: "bg-emerald",
+    azure: "bg-azure",
+    velvet: "bg-velvet",
+    sky: "bg-sky",
+    rosy: "bg-rosy",
+    miss: "bg-transparent",
     present: "border-white bg-white",
     match: "border-black bg-black",
   };
 
   return (
     <div
-      className={`${sizeVariants[size]} ${colorVariants[color]} border border-gray-400 m-1 rounded-full`}
+      className={`${sizeVariants[size]} ${colorVariants[color]} border-2 border-gray-600 m-1 rounded-full hover:brightness-[.8]`}
     ></div>
   );
 }

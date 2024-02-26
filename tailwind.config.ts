@@ -40,6 +40,7 @@ const config: Config = {
         'velvet': '#B10DC9',
         'sky': '#7FDBFF',
         'rosy': '#FF69B4',
+        'gold': '#FFD700',
       },
     },
   },
