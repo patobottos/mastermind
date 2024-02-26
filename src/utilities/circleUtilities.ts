@@ -5,7 +5,8 @@ export enum GuessedColorState {
 }
 
 export const GuessedColorStateStyles = {
-  [GuessedColorState.Miss]: 'border-gray-400 bg-gray-400',
+  [GuessedColorState.Miss]: ' bg-gray-400',
   [GuessedColorState.Present]: 'border-white bg-white',
   [GuessedColorState.Match]: 'border-black bg-black',
 };
+

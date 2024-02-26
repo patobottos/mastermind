@@ -31,6 +31,16 @@ const config: Config = {
         "2xl": { min: "1280px", max: "1535px" },
         // => @media (min-width: 1280px) and (max-width: 1535px) { ... }
       },
+      colors: {
+        'crimson': '#FF4136',
+        'sunrise': '#FF851B',
+        'sunny': '#FFDC00',
+        'emerald': '#2ECC40',
+        'azure': '#0074D9',
+        'velvet': '#B10DC9',
+        'sky': '#7FDBFF',
+        'rosy': '#FF69B4',
+      },
     },
   },
   plugins: [],
