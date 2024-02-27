@@ -1,10 +1,29 @@
+"use client"; // This is a client component
+
+import React, { useState } from "react";
 import { getRandomColorCode } from "@/utilities/randomCodeGenerator";
 import Circle from "./Circle";
+import RadioButtons from "./RadioButtons";
+import ColorPicker from "./ColorPicker";
 
 function Board() {
   const CodeInColors: string[] = getRandomColorCode();
-  console.log("Code in colors => ", CodeInColors.join(", "));
-  //const CodeIncolorsArray: string[] = CodeInColors.map((item) => item.key);
+  const RadioColors = [
+    "crimson",
+    "sunrise",
+    "sunny",
+    "emerald",
+    "azure",
+    "velvet",
+    "sky",
+    "rosy",
+  ];
+  const [selectedColor, setSelectedColor] = useState<string>("crimsom");
+
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+    // Additional logic for handling color change if needed
+  };
 
   return (
     <div className="text-white w-[80vw] justify-center mx-auto border">
@@ -23,14 +42,30 @@ function Board() {
         <Circle size="large" color="present" />
         <Circle size="large" color="match" />
       </div>
-      <p>Testing Code translation into Color Circles:</p>
-
-      <div className="flex border">
-        {CodeInColors.map((color, index) => (
-          <Circle key={index} size="large" color={color} />
-        ))}
+      <div className="border">
+        <p>Testing Code translation into Color Circles:</p>
+        <div className="flex">
+          {CodeInColors.map((color, index) => (
+            <Circle key={index} size="large" color={color} />
+          ))}
+        </div>
       </div>
-      <p>QQQ</p>
+      <div className="border">
+        <p>Introducing a Guess Radio Buttons:</p>
+        <div className="flex">
+          <RadioButtons />
+        </div>
+      </div>
+      <div className="border">
+        <p>Testing Color Picker Component:</p>
+        <div className="w-[120px] mx-auto">
+          <ColorPicker
+            colors={RadioColors}
+            defaultColor={selectedColor}
+            onChange={handleColorChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }

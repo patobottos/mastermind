@@ -13,7 +13,7 @@ const CircleColorVariants: { [key: string]: string } = {
   rosy: "bg-rosy"
 }
 
-const CodeInColors: { [key: number]: string } = CODE.map(item => { return CircleColorVariants[(item - 1)] })
+const CodeInColors: { [key: number]: string } = CODE.map(item => { return CircleColorVariants[(item)] })
 
 console.log('code in colors = ', CodeInColors);
 
