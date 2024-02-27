@@ -20,8 +20,8 @@ function Circle({ size, color }: CircleProps) {
     sky: "bg-sky",
     rosy: "bg-rosy",
     miss: "bg-transparent",
-    present: "border-white bg-white",
-    match: "border-black bg-black",
+    present: "bg-white",
+    match: "bg-black",
   };
 
   return (

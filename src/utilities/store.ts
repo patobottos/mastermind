@@ -1,17 +1,23 @@
 import create from 'zustand';
 import getRandomCode from './randomCodeGenerator';
-import { GuessedColorState } from '@/utilities/circleUtilities';
+import { computeGuess, GuessedColorState } from './gameLogic';
 
 export const CODE_LENGTH = 5;
-export const GUESS_CHANCES = 6;
+export const GUESS_CHANCES = 8;
 
 interface GuessRow {
-  guess: string;
+  guess: number;
   result?: GuessedColorState[];
 }
 
 
 interface StoreState {
+  answerCode: number[];
+  guessRows: GuessRow[];
+  gameState: 'playing' | 'won' | 'lost';
+  addGuess: (guess: number[]) => void;
+
+
   bears: number
   increase: (by: number) => void
 }

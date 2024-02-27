@@ -1,14 +1,14 @@
-import RandomCode from "@/utilities/randomCodeGenerator";
+import { getRandomColorCode } from "@/utilities/randomCodeGenerator";
 import Circle from "./Circle";
-import Palette from "./Palette";
 
 function Board() {
-  const CODE: number[] = RandomCode();
+  const CodeInColors: string[] = getRandomColorCode();
+  console.log("Code in colors => ", CodeInColors.join(", "));
+  //const CodeIncolorsArray: string[] = CodeInColors.map((item) => item.key);
 
   return (
     <div className="text-white w-[80vw] justify-center mx-auto border">
       <h1>My board here</h1>
-      <p>{CODE}</p>
       <h3>TESTING COLOR CIRCLES... </h3>
       <div className="flex border">
         <Circle size="large" color="crimson" />
@@ -23,10 +23,14 @@ function Board() {
         <Circle size="large" color="present" />
         <Circle size="large" color="match" />
       </div>
-      <p>Testing Palette component:</p>
-      <div className="flex">
-        <Palette />
+      <p>Testing Code translation into Color Circles:</p>
+
+      <div className="flex border">
+        {CodeInColors.map((color, index) => (
+          <Circle key={index} size="large" color={color} />
+        ))}
       </div>
+      <p>QQQ</p>
     </div>
   );
 }
