@@ -17,7 +17,7 @@ function Circle({ size, color }: CircleProps) {
     emerald: "bg-emerald",
     azure: "bg-azure",
     velvet: "bg-velvet",
-    sky: "bg-sky",
+    skyblue: "bg-skyblue",
     rosy: "bg-rosy",
     miss: "bg-transparent",
     present: "bg-white",

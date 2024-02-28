@@ -22,7 +22,7 @@ export function getRandomColorCode(): string[] {
     3: "emerald",
     4: "azure",
     5: "velvet",
-    6: "sky",
+    6: "skyblue",
     7: "rosy"
   }
 

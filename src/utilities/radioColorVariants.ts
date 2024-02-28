@@ -7,6 +7,6 @@ export const radioColorVariants: { [key: string]: string } = {
   emerald: "bg-emerald",
   azure: "bg-azure",
   velvet: "bg-velvet",
-  sky: "bg-sky",
+  skyblue: "bg-skyblue",
   rosy: "bg-rosy",
 };

@@ -38,7 +38,7 @@ const config: Config = {
         'emerald': '#2ECC40',
         'azure': '#0074D9',
         'velvet': '#B10DC9',
-        'sky': '#7FDBFF',
+        'skyblue': '#7FDBFF',
         'rosy': '#FF69B4',
         'gold': '#FFD700',
       },

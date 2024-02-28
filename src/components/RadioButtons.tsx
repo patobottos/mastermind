@@ -8,7 +8,7 @@ function RadioButtons() {
     "emerald",
     "azure",
     "velvet",
-    "sky",
+    "skyblue",
     "rosy",
   ];
 

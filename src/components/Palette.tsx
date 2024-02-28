@@ -8,7 +8,7 @@ function Palette() {
     "emerald",
     "azure",
     "velvet",
-    "sky",
+    "skyblue",
     "rosy",
   ];
 

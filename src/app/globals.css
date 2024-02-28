@@ -33,7 +33,7 @@
 
 @layer base {
   html {
-    @apply bg-slate-800;
+    @apply bg-sky-900;
     font-family: "Inter", "Poppins", "Open Sans", "Lato", sans-serif;
   }
 }
