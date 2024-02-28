@@ -33,7 +33,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 name="color"
                 value={color}
                 className="sr-only"
-                defaultChecked={color === defaultColor}
+                checked={color === defaultColor}
                 onChange={() => onChange(color)}
               />
             </label>
