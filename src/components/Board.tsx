@@ -9,7 +9,7 @@ import ColorPicker from "./ColorPicker";
 function Board() {
   const CodeInColors: string[] = getRandomColorCode();
   const RadioColors = [
-    "crimson",
+    "crimsom",
     "sunrise",
     "sunny",
     "emerald",

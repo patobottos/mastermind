@@ -1,4 +1,5 @@
 import React from "react";
+import { radioColorVariants } from "@/utilities/radioColorVariants";
 
 interface ColorPickerProps {
   colors: string[];
@@ -12,7 +13,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col items-center m-1">
+    <div className="flex flex-col items-center justify-center w-32 h-32">
       {/* SMALL TRIANGLE ON TOP*/}
       <div
         className="w-0 h-0 
@@ -20,13 +21,12 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           border-b-[8px] border-b-slate-700
           border-r-[6px] border-r-transparent"
       ></div>
-      <div className="w-28 flex justify-center border-2 border-slate-700 rounded-lg p-1">
+      <div className="flex justify-center border-2 border-slate-700 rounded-lg px-2 py-1">
         <fieldset className="grid grid-cols-3 gap-1">
           {colors.map((color) => (
             <label
               key={color}
-              className={`relative cursor-pointer inline-block h-6 w-6 rounded-full border-2 border-gray-600 m-1 hover:brightness-[.8]`}
-              style={{ backgroundColor: color }}
+              className={`relative cursor-pointer inline-block h-6 w-6 rounded-full border-2 border-gray-600 m-1 hover:brightness-[.8] ${radioColorVariants[color]}`}
             >
               <input
                 type="radio"
