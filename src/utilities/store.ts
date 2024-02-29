@@ -1,46 +1,31 @@
 import create from 'zustand';
-import getRandomCode from './randomCodeGenerator';
+import { getRandomColorCode } from './randomCodeGenerator';
 import { computeGuess, GuessedColorState } from './gameLogic';
 
 export const CODE_LENGTH = 5;
 export const GUESS_CHANCES = 8;
 
 interface GuessRow {
-  guess: number;
+  guess: string;
   result?: GuessedColorState[];
 }
 
-
 interface StoreState {
-  answerCode: number[];
+  answerCode: string[];
   guessRows: GuessRow[];
   gameState: 'playing' | 'won' | 'lost';
-  addGuess: (guess: number[]) => void;
-
-
-  bears: number
-  increase: (by: number) => void
+  addGuess: (guess: string[]) => void;
+  bears: number;
+  increase: (by: number) => void;
 }
 
-export const useStore = create<StoreState>()(
-  (set, get) => ({
-    const addGuess = (guess: number[]) => { };
-
-    bears: 0,
-    increase: (by) => set((state) => ({ bears: state.bears + by })),
-  })
-
-  return {
-  answerCode: getRandomCode(),
+export const useStore = create<StoreState>((set, get) => ({
+  answerCode: getRandomColorCode(),
   guessRows: [] as GuessRow[],
-  gameSate: 'playing',
-  addGuess,
-
-  newGame: ()
-
-
-}
-  
-  
-  
-  )
+  gameState: 'playing',
+  bears: 0,
+  addGuess: (guess: string[]) => {
+    // Your logic for adding a guess goes here
+  },
+  increase: (by) => set((state) => ({ bears: state.bears + by })),
+}));

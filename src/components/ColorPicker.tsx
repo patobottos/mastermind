@@ -26,7 +26,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           {colors.map((color) => (
             <label
               key={color}
-              className={`relative cursor-pointer inline-block h-6 w-6 rounded-full border-2 border-gray-600 m-1 hover:brightness-[.8] ${radioColorVariants[color]}`}
+              className={`relative cursor-pointer inline-block h-5 w-5 rounded-full border-2 border-gray-600 m-1 hover:brightness-[.8] ${radioColorVariants[color]}`}
             >
               <input
                 type="radio"

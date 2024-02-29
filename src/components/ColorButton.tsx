@@ -12,14 +12,28 @@ export enum radioColorValues {
   "skyblue",
   "rosy",
   "transparent", // WHEN NO COLOR IS CHOSEN
+  "white",
+  "black",
 }
 
 type ColorButtonProps = {
-  value?: radioColorValues;
+  backgroundColor?: radioColorValues;
+  size: "small" | "medium" | "large";
 };
 
-export function ColorButton({ value }: ColorButtonProps) {
-  const [selectedColor, setSelectedColor] = useState(value || "transparent");
+export default function ColorButton({
+  backgroundColor,
+  size,
+}: ColorButtonProps) {
+  const sizeVariants = {
+    small: "h-5 w-5",
+    medium: "h-8 w-8",
+    large: "h-10 w-10",
+  };
+
+  const [selectedColor, setSelectedColor] = useState(
+    backgroundColor || "transparent"
+  );
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   const handleColorPickerToggle = () => {
@@ -31,7 +45,7 @@ export function ColorButton({ value }: ColorButtonProps) {
     setShowColorPicker(false); // Close ColorPicker after selection
   };
 
-  const valueStyles =
+  const colorStyles =
     selectedColor === "transparent"
       ? "bg-transparent"
       : `${radioColorVariants[selectedColor]}`;
@@ -40,13 +54,13 @@ export function ColorButton({ value }: ColorButtonProps) {
     <div className="relative">
       <button
         onClick={handleColorPickerToggle}
-        className={`h-10 w-10 border-2 border-slate-500 m-1 rounded-full hover:brightness-[.8] ${valueStyles}`}
+        className={`h-10 w-10 border-2 border-slate-500 m-1 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
       ></button>
       {showColorPicker && (
         <div className="absolute top-12 right-1/2">
           <ColorPicker
             colors={Object.keys(radioColorVariants)}
-            defaultColor={selectedColor}
+            defaultColor={"transparent"}
             onChange={handleColorChange}
           />
         </div>
@@ -54,5 +68,3 @@ export function ColorButton({ value }: ColorButtonProps) {
     </div>
   );
 }
-
-export default ColorButton;

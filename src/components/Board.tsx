@@ -3,12 +3,10 @@
 import React, { useState } from "react";
 import { getRandomColorCode } from "@/utilities/randomCodeGenerator";
 import Circle from "./Circle";
-import ColorPicker from "./ColorPicker";
-import { radioColorVariants } from "@/utilities/radioColorVariants";
-import ColorButton from "./ColorButton";
-import { CODE_LENGTH, GUESS_CHANCES } from "@/utilities/store";
+import ColorButtonRow from "./ColorButtonRow";
+import { radioColorValues } from "./ColorButton";
 
-function Board() {
+export default function Board() {
   const CodeInColors: string[] = getRandomColorCode();
 
   const [selectedColor, setSelectedColor] = useState<string>("crimsom");
@@ -19,8 +17,8 @@ function Board() {
   };
 
   return (
-    <div className="text-white w-[80vw] justify-center mx-auto border">
-      <div className="border">
+    <div className="text-white w-[80vw] flex flex-col items-center justify-center">
+      <div>
         <p>Random Generated Code:</p>
         <div className="flex">
           {CodeInColors.map((color, index) => (
@@ -28,25 +26,41 @@ function Board() {
           ))}
         </div>
       </div>
-      <div className="border">
-        <p>Test for board:</p>
-        <div>
-          {}
-          <ColorButton />
+      <div></div>
+
+      <h2>The board here:</h2>
+      <div className="border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max">
+        <div className="border-2 border-gray-600 rounded col-span-2">
+          <h3>Left</h3>
+          <div className="border border-pink-300 flex justify-end">
+            <ColorButtonRow
+              guessingCode={[
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+              ]}
+              size="large"
+            />
+          </div>
         </div>
-      </div>
-      <div className="border">
-        <p>Testing Color Picker Component:</p>
-        <div className="w-[120px] mx-auto">
-          <ColorPicker
-            colors={Object.keys(radioColorVariants)}
-            defaultColor={selectedColor}
-            onChange={handleColorChange}
-          />
+        <div className="border-2 border-gray-600 rounded col-span-1">
+          <h3>Right</h3>
+          <div className="flex justify-start">
+            <ColorButtonRow
+              guessingCode={[
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+                radioColorValues.transparent,
+              ]}
+              size="small"
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default Board;
