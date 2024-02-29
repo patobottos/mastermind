@@ -37,7 +37,7 @@ export default function ColorButton({
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   const handleColorPickerToggle = () => {
-    setShowColorPicker(!showColorPicker);
+    setShowColorPicker((prev) => !prev);
   };
 
   const handleColorChange = (color: string) => {
@@ -57,7 +57,7 @@ export default function ColorButton({
         className={`h-10 w-10 border-2 border-slate-500 m-1 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
       ></button>
       {showColorPicker && (
-        <div className="absolute top-12 right-1/2">
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
           <ColorPicker
             colors={Object.keys(radioColorVariants)}
             defaultColor={"transparent"}

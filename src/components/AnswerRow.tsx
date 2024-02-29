@@ -3,7 +3,7 @@ import Circle from "./Circle";
 import { CODE_LENGTH } from "@/utilities/store";
 
 type AnswerRowProps = {
-  guessingCode: answerColorVariants[];
+  guessingCode: (keyof typeof answerColorVariants)[];
 };
 
 export default function AnswerRow({ guessingCode = [] }: AnswerRowProps) {
@@ -12,7 +12,7 @@ export default function AnswerRow({ guessingCode = [] }: AnswerRowProps) {
   return (
     <div className="flex">
       {guessingCode.map((item, index) => (
-        <Circle key={index} backgroundColor={item} />
+        <Circle key={index} color={item as string} size="small" />
       ))}
     </div>
   );

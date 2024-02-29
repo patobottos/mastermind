@@ -3,7 +3,7 @@ type CircleProps = {
   color: string;
 };
 
-function Circle({ size, color }: CircleProps) {
+export default function Circle({ size, color }: CircleProps) {
   const sizeVariants = {
     small: "h-5 w-5",
     medium: "h-8 w-8",
@@ -30,5 +30,3 @@ function Circle({ size, color }: CircleProps) {
     ></div>
   );
 }
-
-export default Circle;

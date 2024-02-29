@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { getRandomColorCode } from "@/utilities/randomCodeGenerator";
+import { radioColorValues } from "./ColorButton";
 import Circle from "./Circle";
 import ColorButtonRow from "./ColorButtonRow";
-import { radioColorValues } from "./ColorButton";
+import AnswerRow from "./AnswerRow";
 
 export default function Board() {
   const CodeInColors: string[] = getRandomColorCode();
@@ -31,7 +32,7 @@ export default function Board() {
       <h2>The board here:</h2>
       <div className="border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max">
         <div className="border-2 border-gray-600 rounded col-span-2">
-          <h3>Left</h3>
+          <h3>Left: The Guess</h3>
           <div className="border border-pink-300 flex justify-end">
             <ColorButtonRow
               guessingCode={[
@@ -46,9 +47,9 @@ export default function Board() {
           </div>
         </div>
         <div className="border-2 border-gray-600 rounded col-span-1">
-          <h3>Right</h3>
+          <h3>Right: The Answers</h3>
           <div className="flex justify-start">
-            <ColorButtonRow
+            <AnswerRow
               guessingCode={[
                 radioColorValues.transparent,
                 radioColorValues.transparent,
@@ -56,7 +57,6 @@ export default function Board() {
                 radioColorValues.transparent,
                 radioColorValues.transparent,
               ]}
-              size="small"
             />
           </div>
         </div>
