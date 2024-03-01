@@ -16,6 +16,14 @@ export enum radioColorValues {
   "black",
 }
 
+export const initialColorValues: radioColorValues[] = [
+  radioColorValues.transparent,
+  radioColorValues.transparent,
+  radioColorValues.transparent,
+  radioColorValues.transparent,
+  radioColorValues.transparent,
+];
+
 type ColorButtonProps = {
   backgroundColor?: radioColorValues;
   size: "small" | "medium" | "large";
