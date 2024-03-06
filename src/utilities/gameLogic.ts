@@ -30,8 +30,8 @@ export const GuessedColorStateStyles = {
 };
 
 export function computeGuess(
-  guessingCode: number[],
-  answerCode: number[]
+  guessingCode: string[],
+  answerCode: string[]
 ): GuessedColorState[] {
 
 
@@ -43,7 +43,7 @@ export function computeGuess(
   const results: GuessedColorState[] = [];
   const answerColorCount: Record<string, number> = {};
 
-  // IT RETURNS AN EMPTY ARRAY OF STATES WHEN WORDS HAVE DIFFERENT LENGTH
+  // IT RETURNS AN EMPTY ARRAY OF STATES WHEN COLOR CODES HAVE DIFFERENT LENGTH
   if (guessingCode.length !== answerCode.length) {
     return results;
   }
@@ -54,12 +54,12 @@ export function computeGuess(
   });
 
   // FUNCTION TO CHECK THE COLOR EXISTS, AND IT'S IN THE RIGHT LOCATION (BLACK COLOR)
-  function isMatch(guess: number, _answer: number, guessIndex: number): boolean {
+  function isMatch(guess: string, _answer: string, guessIndex: number): boolean {
     return answerColorCount[guess] > 0 && guessIndex === answerCode.indexOf(guess);
   }
 
   // FUNCTION TO CHECK THE COLOR EXISTS, BUT IS NOT IN THE RIGHT POSITION (WHITE COLOR)
-  function isPresent(guess: number, _answer: number, guessIndex: number): boolean {
+  function isPresent(guess: string, _answer: string, guessIndex: number): boolean {
     return answerColorCount[guess] > 0 && guessIndex !== answerCode.indexOf(guess);
   }
 
