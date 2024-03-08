@@ -5,12 +5,12 @@ import { computeGuess, GuessedColorState } from './gameLogic';
 export const CODE_LENGTH = 5;
 export const GUESS_CHANCES = 8;
 
-interface GuessRow {
+type GuessRow = {
   guess: string;
   result?: GuessedColorState[];
 }
 
-interface StoreState {
+type StoreState = {
   answerCode: string[];
   guessRows: GuessRow[];
   gameState: 'playing' | 'won' | 'lost';
