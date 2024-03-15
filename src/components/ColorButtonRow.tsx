@@ -16,13 +16,13 @@ export default function ColorButtonRow({
   const buttonsRemaining = CODE_LENGTH - guessingCode.length;
 
   return (
-    <div className="flex">
+    <div className='flex'>
       {guessingCode.map((item, index) => (
         <ColorButton
           key={index}
           backgroundColor={item}
           size={size}
-          onClick={() => onColorChange(item, index + 1)} // Pass both color and position
+          onClick={() => onColorChange(item.toString(), index + 1)} // Convert enum value to string, and Pass both color and position
         />
       ))}
     </div>

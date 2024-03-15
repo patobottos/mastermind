@@ -27,11 +27,13 @@ export const initialColorValues: radioColorValues[] = [
 type ColorButtonProps = {
   backgroundColor?: radioColorValues;
   size: "small" | "medium" | "large";
+  onClick?: () => void;
 };
 
 export default function ColorButton({
   backgroundColor,
   size,
+  onClick,
 }: ColorButtonProps) {
   const sizeVariants = {
     small: "h-5 w-5",
