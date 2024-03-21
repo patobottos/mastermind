@@ -22,7 +22,8 @@ export default function ColorButtonRow({
           key={index}
           backgroundColor={item}
           size={size}
-          onClick={() => onColorChange(item.toString(), index + 1)} // Convert enum value to string, and Pass both color and position
+          position={index + 1} // Pass the position to the ColorButton component
+          onColorChange={onColorChange} // Pass the onColorChange function
         />
       ))}
     </div>

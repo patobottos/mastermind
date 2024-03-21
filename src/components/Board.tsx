@@ -12,26 +12,15 @@ import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import { CodePosition } from "../utilities/randomCodeGenerator";
 
+type PlayerGuess = {
+  tryNumber: number;
+  guess: CodePosition[];
+};
+
 export default function Board() {
   const [randomCode, setRandomCode] = useState<AnswerCodeType>([]);
   const [tryNumber, setTryNumber] = useState<number>(1);
-  const [selectedColor, setSelectedColor] = useState<string>(""); // Initialize with an empty string
-  const [playerGuesses, setPlayerGuesses] = useState<Array<CodePosition[]>>([]);
-
-  useEffect(() => {
-    // Capture the current player's guess and update the state
-    const currentPlayerGuess: CodePosition[] = initialColorValues.map(
-      (_, index) => ({
-        position: index + 1,
-        color: selectedColor,
-      })
-    );
-
-    setPlayerGuesses((prevGuesses) => [...prevGuesses, currentPlayerGuess]);
-
-    // Log the current player's guess to the console
-    console.log(`Try ${tryNumber}: Player's Guess =>`, currentPlayerGuess);
-  }, [selectedColor, tryNumber]); // Update when selectedColor or tryNumber changes
+  const [playerGuesses, setPlayerGuesses] = useState<PlayerGuess[]>([]);
 
   useEffect(() => {
     const generatedCode: AnswerCodeType = getRandomColorCode();
@@ -40,30 +29,43 @@ export default function Board() {
   }, []);
 
   const handleColorChange = (color: string, position: number) => {
-    // Update the try number when the player makes a guess
-    setTryNumber((prevTryNumber) => prevTryNumber + 1);
+    // Construct the current player's guess
+    const currentPlayerGuess: CodePosition[] =
+      playerGuesses.length > 0
+        ? [...playerGuesses[playerGuesses.length - 1].guess]
+        : [];
 
-    setSelectedColor(color);
+    // Create a copy of the current player's guess
+    const updatedGuess = [...currentPlayerGuess];
 
-    // Log the selected color and position
-    console.log(
-      `Try ${tryNumber}: Selected color => ${color} at position ${position}`
-    );
+    // Update the color for the selected position
+    updatedGuess[position - 1] = { position: position, color: color };
+
+    // Update the state with the player's guess
+    setPlayerGuesses((prevGuesses) => [
+      ...prevGuesses.slice(0, prevGuesses.length - 1), // Remove the last guess
+      {
+        tryNumber: tryNumber,
+        guess: updatedGuess,
+      },
+    ]);
   };
 
   const handleCheckButtonClick = () => {
-    // Capture the current player's guess and update the state
-    const currentPlayerGuess: CodePosition[] = initialColorValues.map(
-      (_, index) => ({
-        position: index + 1,
-        color: selectedColor,
-      })
-    );
+    // Retrieve the latest guess made by the user from playerGuesses
+    const latestGuess = playerGuesses[playerGuesses.length - 1]?.guess || [];
 
-    setPlayerGuesses((prevGuesses) => [...prevGuesses, currentPlayerGuess]);
+    // Construct the new player guess
+    const newGuess: PlayerGuess = {
+      tryNumber: tryNumber,
+      guess: latestGuess,
+    };
 
-    // Log the current player's guess to the console
-    console.log(`Try ${tryNumber}: Player's Guess =>`, currentPlayerGuess);
+    // Log the player's guess to the console
+    console.log("Player's Guess:", newGuess);
+
+    // Update the state with the player's guess
+    setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
   };
 
   return (
