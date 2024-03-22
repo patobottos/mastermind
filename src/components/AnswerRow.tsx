@@ -1,18 +1,15 @@
-import { answerColorVariants } from "../utilities/radioColorVariants";
+import React from "react";
 import Circle from "./Circle";
-import { CODE_LENGTH } from "@/utilities/store";
 
 type AnswerRowProps = {
-  guessingCode: (keyof typeof answerColorVariants)[];
+  evaluation: string[];
 };
 
-export default function AnswerRow({ guessingCode = [] }: AnswerRowProps) {
-  const buttonsRemaining = CODE_LENGTH - guessingCode.length;
-
+export default function AnswerRow({ evaluation }: AnswerRowProps) {
   return (
-    <div className="flex">
-      {guessingCode.map((item, index) => (
-        <Circle key={index} color={item as string} size="small" />
+    <div className='flex'>
+      {evaluation.map((item, index) => (
+        <Circle key={index} color={item as string} size='small' />
       ))}
     </div>
   );

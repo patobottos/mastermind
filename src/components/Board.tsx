@@ -1,16 +1,17 @@
-"use client"; // This is a client component
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
-  AnswerCodeType,
   getRandomColorCode,
+  CodePosition,
+  AnswerCodeType,
 } from "@/utilities/randomCodeGenerator";
 import { initialColorValues } from "./ColorButton";
 import Circle from "./Circle";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
-import { CodePosition } from "../utilities/randomCodeGenerator";
+import { computeGuess, GuessedColorState } from "@/utilities/gameLogic";
 
 type PlayerGuess = {
   tryNumber: number;
@@ -21,29 +22,23 @@ export default function Board() {
   const [randomCode, setRandomCode] = useState<AnswerCodeType>([]);
   const [tryNumber, setTryNumber] = useState<number>(1);
   const [playerGuesses, setPlayerGuesses] = useState<PlayerGuess[]>([]);
+  const [evaluations, setEvaluations] = useState<string[][]>([]);
 
   useEffect(() => {
     const generatedCode: AnswerCodeType = getRandomColorCode();
     setRandomCode(generatedCode);
-    console.log("código respuesta: ", generatedCode);
+    console.log("Generated Code:", generatedCode);
   }, []);
 
   const handleColorChange = (color: string, position: number) => {
-    // Construct the current player's guess
     const currentPlayerGuess: CodePosition[] =
       playerGuesses.length > 0
         ? [...playerGuesses[playerGuesses.length - 1].guess]
         : [];
-
-    // Create a copy of the current player's guess
     const updatedGuess = [...currentPlayerGuess];
-
-    // Update the color for the selected position
     updatedGuess[position - 1] = { position: position, color: color };
-
-    // Update the state with the player's guess
     setPlayerGuesses((prevGuesses) => [
-      ...prevGuesses.slice(0, prevGuesses.length - 1), // Remove the last guess
+      ...prevGuesses.slice(0, prevGuesses.length - 1),
       {
         tryNumber: tryNumber,
         guess: updatedGuess,
@@ -52,20 +47,46 @@ export default function Board() {
   };
 
   const handleCheckButtonClick = () => {
-    // Retrieve the latest guess made by the user from playerGuesses
     const latestGuess = playerGuesses[playerGuesses.length - 1]?.guess || [];
-
-    // Construct the new player guess
     const newGuess: PlayerGuess = {
       tryNumber: tryNumber,
       guess: latestGuess,
     };
-
-    // Log the player's guess to the console
     console.log("Player's Guess:", newGuess);
-
-    // Update the state with the player's guess
     setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
+
+    const evaluation = evaluateGuess(latestGuess, randomCode);
+    setEvaluations((prevEvaluations) => [...prevEvaluations, evaluation]);
+  };
+
+  const evaluateGuess = (guess: CodePosition[], answer: AnswerCodeType) => {
+    const evaluation: string[] = [];
+    const answerColors = answer.map((item) => item.color);
+
+    // Check for exact matches (black)
+    guess.forEach((position, index) => {
+      if (position.color === answerColors[index]) {
+        evaluation.push("match");
+        answerColors[index] = ""; // Mark the matched color to avoid counting it again
+      }
+    });
+
+    // Check for present matches (white)
+    guess.forEach((position) => {
+      const index = answerColors.indexOf(position.color);
+      if (index !== -1) {
+        evaluation.push("present");
+        answerColors[index] = ""; // Mark the matched color to avoid counting it again
+      }
+    });
+
+    // Fill the remaining positions with miss (transparent)
+    const remaining = 5 - evaluation.length;
+    for (let i = 0; i < remaining; i++) {
+      evaluation.push("miss");
+    }
+
+    return evaluation;
   };
 
   return (
@@ -97,7 +118,7 @@ export default function Board() {
         <div className='border-2 border-gray-600 rounded col-span-1'>
           <h3>Right: The Answers</h3>
           <div className='flex justify-start'>
-            <AnswerRow guessingCode={initialColorValues} />
+            <AnswerRow evaluation={evaluations[evaluations.length - 1] ?? []} />
           </div>
         </div>
         <CheckButton onClick={handleCheckButtonClick} />

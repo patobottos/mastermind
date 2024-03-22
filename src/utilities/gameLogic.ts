@@ -1,7 +1,5 @@
 import getRandomCode from "./randomCodeGenerator";
 
-const CODE: number[] = getRandomCode();
-
 const CircleColorVariants: { [key: string]: string } = {
   crimson: "bg-crimson",
   sunrise: "bg-sunrise",
@@ -11,11 +9,7 @@ const CircleColorVariants: { [key: string]: string } = {
   velvet: "bg-velvet",
   skyblue: "bg-skyblue",
   rosy: "bg-rosy"
-}
-
-const CodeInColors: { [key: number]: string } = CODE.map(item => { return CircleColorVariants[(item)] })
-
-console.log('code in colors = ', CodeInColors);
+};
 
 export enum GuessedColorState {
   Miss = "Miss", // Color doesn't exist at all - TRANSPARENT
@@ -30,13 +24,13 @@ export const GuessedColorStateStyles = {
 };
 
 export function computeGuess(
-  guessingCode: number[],
-  answerCode: number[]
+  guessingCode: string[],
+  answerCode: string[]
 ): GuessedColorState[] {
-
+  const CODE: string[] = getRandomCode().map((number) => CircleColorVariants[number]);
 
   // FIRST, WE CHECK FOR A FULL MATCH CASE
-  if (guessingCode === answerCode) {
+  if (guessingCode.every((val, index) => val === answerCode[index])) {
     return Array.from({ length: guessingCode.length }, () => GuessedColorState.Match);
   }
 
@@ -54,12 +48,12 @@ export function computeGuess(
   });
 
   // FUNCTION TO CHECK THE COLOR EXISTS, AND IT'S IN THE RIGHT LOCATION (BLACK COLOR)
-  function isMatch(guess: number, _answer: number, guessIndex: number): boolean {
+  function isMatch(guess: string, _answer: string, guessIndex: number): boolean {
     return answerColorCount[guess] > 0 && guessIndex === answerCode.indexOf(guess);
   }
 
   // FUNCTION TO CHECK THE COLOR EXISTS, BUT IS NOT IN THE RIGHT POSITION (WHITE COLOR)
-  function isPresent(guess: number, _answer: number, guessIndex: number): boolean {
+  function isPresent(guess: string, _answer: string, guessIndex: number): boolean {
     return answerColorCount[guess] > 0 && guessIndex !== answerCode.indexOf(guess);
   }
 
