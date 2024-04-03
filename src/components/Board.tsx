@@ -27,7 +27,7 @@ export default function Board() {
   useEffect(() => {
     const generatedCode: AnswerCodeType = getRandomColorCode();
     setRandomCode(generatedCode);
-    console.log("Generated Code is:", generatedCode);
+    console.log("Generated Code:", generatedCode);
   }, []);
 
   const handleColorChange = (color: string, position: number) => {
@@ -53,6 +53,7 @@ export default function Board() {
       guess: latestGuess,
     };
     console.log("Player's Guess:", newGuess);
+
     setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
 
     const evaluation = evaluateGuess(latestGuess, randomCode);
@@ -63,27 +64,22 @@ export default function Board() {
     const evaluation: string[] = [];
     const answerColors = answer.map((item) => item.color);
 
-    // Check for exact matches (black)
     guess.forEach((position, index) => {
       if (position.color === answerColors[index]) {
-        evaluation.push("match");
+        evaluation.push("black"); // Exact match, black circle
         answerColors[index] = ""; // Mark the matched color to avoid counting it again
+      } else if (answerColors.includes(position.color)) {
+        evaluation.push("white"); // Color present but not in the exact position, white circle
+        answerColors[answerColors.indexOf(position.color)] = ""; // Mark the matched color to avoid counting it again
+      } else {
+        evaluation.push("transparent"); // Color not present, transparent circle
       }
     });
 
-    // Check for present matches (white)
-    guess.forEach((position) => {
-      const index = answerColors.indexOf(position.color);
-      if (index !== -1) {
-        evaluation.push("present");
-        answerColors[index] = ""; // Mark the matched color to avoid counting it again
-      }
-    });
-
-    // Fill the remaining positions with miss (transparent)
+    // Fill the remaining positions with transparent
     const remaining = 5 - evaluation.length;
     for (let i = 0; i < remaining; i++) {
-      evaluation.push("miss");
+      evaluation.push("transparent");
     }
 
     return evaluation;
