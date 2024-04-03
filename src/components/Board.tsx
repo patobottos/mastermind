@@ -27,7 +27,7 @@ export default function Board() {
   useEffect(() => {
     const generatedCode: AnswerCodeType = getRandomColorCode();
     setRandomCode(generatedCode);
-    console.log("Generated Code:", generatedCode);
+    console.log("Generated Code is:", generatedCode);
   }, []);
 
   const handleColorChange = (color: string, position: number) => {
