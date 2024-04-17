@@ -11,7 +11,7 @@ import Circle from "./Circle";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
-import { computeGuess, GuessedColorState } from "@/utilities/gameLogic";
+import { GUESS_CHANCES } from "@/utilities/store";
 
 type PlayerGuess = {
   tryNumber: number;
@@ -67,19 +67,22 @@ export default function Board() {
   const evaluateGuess = (guess: CodePosition[], answer: AnswerCodeType) => {
     const evaluation: string[] = [];
     const answerColors = answer.map((item) => item.color);
+    const matchedIndices: number[] = []; // Keep track of matched indices in the random code
 
     guess.forEach((position, index) => {
-      if (position.color === answerColors[index]) {
+      const colorIndex = answerColors.indexOf(position.color);
+
+      if (
+        position.color === answerColors[index] &&
+        !matchedIndices.includes(index)
+      ) {
         evaluation.push("match"); // Exact match, black circle
-        answerColors[index] = ""; // Mark the matched color to avoid counting it again
+        matchedIndices.push(index); // Mark the matched index to avoid counting it again
+      } else if (colorIndex !== -1 && !matchedIndices.includes(colorIndex)) {
+        evaluation.push("present"); // Color present but not in the exact position, white circle
+        matchedIndices.push(colorIndex); // Mark the matched index to avoid counting it again
       } else {
-        const colorIndex = answerColors.indexOf(position.color);
-        if (colorIndex !== -1) {
-          evaluation.push("present"); // Color present but not in the exact position, white circle
-          answerColors[colorIndex] = ""; // Mark the matched color to avoid counting it again
-        } else {
-          evaluation.push("miss"); // Color not present, transparent circle
-        }
+        evaluation.push("miss"); // Color not present, transparent circle
       }
     });
 
@@ -88,9 +91,13 @@ export default function Board() {
     for (let i = 0; i < remaining; i++) {
       evaluation.push("transparent");
     }
+
     console.log("Evaluation =>", evaluation);
     return evaluation;
   };
+
+  console.log("Player Guesses L99", playerGuesses);
+  const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
     <div className="text-white w-[80vw] flex flex-col items-center justify-center">
@@ -108,24 +115,22 @@ export default function Board() {
       <div className="border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max">
         <div className="border-2 border-gray-600 rounded col-span-2">
           <h3>Left: The Guess</h3>
-          <div className="border border-pink-300 flex justify-end">
-            <ColorButtonRow
-              guessingCode={initialColorValues}
-              size="large"
-              onColorChange={(color, position) =>
-                handleColorChange(color, position)
-              }
-            />
+          <div className="border border-pink-300 flex flex-col items-center">
+            {playersChances.map((item, index) => (
+              <ColorButtonRow
+                key={tryNumber}
+                guessingCode={initialColorValues}
+                size="large"
+                onColorChange={(color, position) =>
+                  handleColorChange(color, position)
+                }
+              />
+            ))}
           </div>
         </div>
         <div className="border-2 border-gray-600 rounded col-span-1">
           <h3>Right: The Answers</h3>
           <div className="flex justify-start">
-            {/* Insert console.log statement here */}
-            {console.log(
-              "Evaluation L126:",
-              evaluations[evaluations.length - 1] ?? []
-            )}
             <AnswerRow evaluation={evaluations[evaluations.length - 1] ?? []} />
           </div>
         </div>
