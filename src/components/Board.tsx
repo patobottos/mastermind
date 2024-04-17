@@ -56,6 +56,9 @@ export default function Board() {
 
     setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
 
+    console.log("L59 latestGuess", latestGuess);
+    console.log("L60 randomCode", randomCode);
+
     const evaluation = evaluateGuess(latestGuess, randomCode);
     setEvaluations((prevEvaluations) => [...prevEvaluations, evaluation]);
   };
@@ -68,11 +71,14 @@ export default function Board() {
       if (position.color === answerColors[index]) {
         evaluation.push("black"); // Exact match, black circle
         answerColors[index] = ""; // Mark the matched color to avoid counting it again
-      } else if (answerColors.includes(position.color)) {
-        evaluation.push("white"); // Color present but not in the exact position, white circle
-        answerColors[answerColors.indexOf(position.color)] = ""; // Mark the matched color to avoid counting it again
       } else {
-        evaluation.push("transparent"); // Color not present, transparent circle
+        const colorIndex = answerColors.indexOf(position.color);
+        if (colorIndex !== -1) {
+          evaluation.push("white"); // Color present but not in the exact position, white circle
+          answerColors[colorIndex] = ""; // Mark the matched color to avoid counting it again
+        } else {
+          evaluation.push("transparent"); // Color not present, transparent circle
+        }
       }
     });
 
@@ -81,39 +87,40 @@ export default function Board() {
     for (let i = 0; i < remaining; i++) {
       evaluation.push("transparent");
     }
-
+    console.log();
+    console.log("Evaluation =>", evaluation);
     return evaluation;
   };
 
   return (
-    <div className='text-white w-[80vw] flex flex-col items-center justify-center'>
+    <div className="text-white w-[80vw] flex flex-col items-center justify-center">
       <div>
         <p>Random Generated Code:</p>
-        <div className='flex'>
+        <div className="flex">
           {randomCode.map((CodePosition, index) => (
-            <Circle key={index} size='large' color={CodePosition.color} />
+            <Circle key={index} size="large" color={CodePosition.color} />
           ))}
         </div>
       </div>
       <div></div>
 
       <h2>The board here:</h2>
-      <div className='border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max'>
-        <div className='border-2 border-gray-600 rounded col-span-2'>
+      <div className="border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max">
+        <div className="border-2 border-gray-600 rounded col-span-2">
           <h3>Left: The Guess</h3>
-          <div className='border border-pink-300 flex justify-end'>
+          <div className="border border-pink-300 flex justify-end">
             <ColorButtonRow
               guessingCode={initialColorValues}
-              size='large'
+              size="large"
               onColorChange={(color, position) =>
                 handleColorChange(color, position)
               }
             />
           </div>
         </div>
-        <div className='border-2 border-gray-600 rounded col-span-1'>
+        <div className="border-2 border-gray-600 rounded col-span-1">
           <h3>Right: The Answers</h3>
-          <div className='flex justify-start'>
+          <div className="flex justify-start">
             <AnswerRow evaluation={evaluations[evaluations.length - 1] ?? []} />
           </div>
         </div>
