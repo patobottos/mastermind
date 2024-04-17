@@ -7,9 +7,9 @@ type AnswerRowProps = {
 
 export default function AnswerRow({ evaluation }: AnswerRowProps) {
   return (
-    <div className='flex'>
-      {evaluation.map((item, index) => (
-        <Circle key={index} color={item as string} size='small' />
+    <div className="flex">
+      {evaluation.map((color, index) => (
+        <Circle key={index} color={color} size="small" />
       ))}
     </div>
   );

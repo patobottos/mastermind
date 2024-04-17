@@ -61,6 +61,7 @@ export default function Board() {
 
     const evaluation = evaluateGuess(latestGuess, randomCode);
     setEvaluations((prevEvaluations) => [...prevEvaluations, evaluation]);
+    console.log("Evaluations:", evaluations);
   };
 
   const evaluateGuess = (guess: CodePosition[], answer: AnswerCodeType) => {
@@ -69,15 +70,15 @@ export default function Board() {
 
     guess.forEach((position, index) => {
       if (position.color === answerColors[index]) {
-        evaluation.push("black"); // Exact match, black circle
+        evaluation.push("match"); // Exact match, black circle
         answerColors[index] = ""; // Mark the matched color to avoid counting it again
       } else {
         const colorIndex = answerColors.indexOf(position.color);
         if (colorIndex !== -1) {
-          evaluation.push("white"); // Color present but not in the exact position, white circle
+          evaluation.push("present"); // Color present but not in the exact position, white circle
           answerColors[colorIndex] = ""; // Mark the matched color to avoid counting it again
         } else {
-          evaluation.push("transparent"); // Color not present, transparent circle
+          evaluation.push("miss"); // Color not present, transparent circle
         }
       }
     });
@@ -87,7 +88,6 @@ export default function Board() {
     for (let i = 0; i < remaining; i++) {
       evaluation.push("transparent");
     }
-    console.log();
     console.log("Evaluation =>", evaluation);
     return evaluation;
   };
@@ -121,6 +121,11 @@ export default function Board() {
         <div className="border-2 border-gray-600 rounded col-span-1">
           <h3>Right: The Answers</h3>
           <div className="flex justify-start">
+            {/* Insert console.log statement here */}
+            {console.log(
+              "Evaluation L126:",
+              evaluations[evaluations.length - 1] ?? []
+            )}
             <AnswerRow evaluation={evaluations[evaluations.length - 1] ?? []} />
           </div>
         </div>
