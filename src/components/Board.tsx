@@ -109,33 +109,33 @@ export default function Board() {
           ))}
         </div>
       </div>
-      <div></div>
 
       <h2>The board here:</h2>
-      <div className="border border-yellow-200 p-3 grid grid-cols-3 gap-4 items-end max-w-max">
-        <div className="border-2 border-gray-600 rounded col-span-2">
-          <h3>Left: The Guess</h3>
-          <div className="border border-pink-300 flex flex-col items-center">
-            {playersChances.map((item, index) => (
+
+      <div className="border border-pink-300 flex flex-col items-center px-2 sm:px-0">
+        {playersChances.map((item, index) => (
+          <div
+            key={tryNumber}
+            className="border border-yellow-200 flex justify-between gap-4 py-2 items-center"
+          >
+            <div className="col-span-2">
               <ColorButtonRow
-                key={tryNumber}
                 guessingCode={initialColorValues}
                 size="large"
                 onColorChange={(color, position) =>
                   handleColorChange(color, position)
                 }
               />
-            ))}
+            </div>
+            <div className="col-span-1">
+              <AnswerRow
+                evaluation={evaluations[evaluations.length - 1] ?? []}
+              />
+            </div>
           </div>
-        </div>
-        <div className="border-2 border-gray-600 rounded col-span-1">
-          <h3>Right: The Answers</h3>
-          <div className="flex justify-start">
-            <AnswerRow evaluation={evaluations[evaluations.length - 1] ?? []} />
-          </div>
-        </div>
-        <CheckButton onClick={handleCheckButtonClick} />
+        ))}
       </div>
+      <CheckButton onClick={handleCheckButtonClick} />
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default function ColorButtonRow({
   const buttonsRemaining = CODE_LENGTH - guessingCode.length;
 
   return (
-    <div className="flex my-2">
+    <div className="flex">
       {guessingCode.map((item, index) => (
         <ColorButton
           key={index}

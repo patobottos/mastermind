@@ -68,13 +68,13 @@ export default function ColorButton({
       : `${radioColorVariants[selectedColor]}`;
 
   return (
-    <div className='relative'>
+    <div className="relative">
       <button
         onClick={handleColorPickerToggle}
-        className={`h-10 w-10 border-2 border-slate-500 m-1 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
+        className={`h-10 w-10 border-2 m-1 border-slate-500 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
       ></button>
       {showColorPicker && (
-        <div className='absolute top-10 left-1/2 transform -translate-x-1/2'>
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
           <ColorPicker
             colors={Object.keys(radioColorVariants)}
             defaultColor={"transparent"}
