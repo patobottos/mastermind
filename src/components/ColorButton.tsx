@@ -27,9 +27,9 @@ export const initialColorValues: radioColorValues[] = [
 type ColorButtonProps = {
   backgroundColor?: radioColorValues;
   size: "small" | "medium" | "large";
-  position: number; // Add position prop
+  position: number;
   onClick?: () => void;
-  onColorChange?: (color: string, position: number) => void; // Modify the onColorChange type
+  onColorChange?: (color: string, position: number) => void;
 };
 
 export default function ColorButton({
@@ -74,7 +74,7 @@ export default function ColorButton({
         className={`h-10 w-10 border-2 m-1 border-slate-500 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
       ></button>
       {showColorPicker && (
-        <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
+        <div className="absolute z-10 top-10 left-1/2 transform -translate-x-1/2">
           <ColorPicker
             colors={Object.keys(radioColorVariants)}
             defaultColor={"transparent"}
