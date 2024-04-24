@@ -68,16 +68,13 @@ export default function Board() {
     ]);
     console.log("Evaluations:", evaluations);
   };
-  //EVALUATE GUESS HERE
+
+  //EVALUATE GUESS FUNCTION UNDER CONSTRUCTION
   const evaluateGuess = (guess: AnswerCodeType, answer: AnswerCodeType) => {
     const evaluation: string[] = [];
 
     const guessColors = guess.map((item) => item.color);
     const answerColors = answer.map((item) => item.color);
-
-    // Initialize arrays to keep track of matched indices
-    const matchedIndices: number[] = [];
-    const matchedColors: string[] = [];
 
     for (let i = 0; i < 5; i++) {
       if (guessColors[i] === answerColors[i]) {
