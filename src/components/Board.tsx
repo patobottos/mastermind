@@ -22,7 +22,9 @@ export default function Board() {
   const [randomCode, setRandomCode] = useState<AnswerCodeType>([]);
   const [tryNumber, setTryNumber] = useState<number>(1);
   const [playerGuesses, setPlayerGuesses] = useState<PlayerGuess[]>([]);
-  const [evaluations, setEvaluations] = useState<string[][]>([]);
+  const [evaluations, setEvaluations] = useState<string[][]>(
+    Array.from({ length: 8 }, () => Array(5).fill("")) // Initialize with 8 empty arrays, each containing 5 empty strings
+  );
 
   useEffect(() => {
     const generatedCode: AnswerCodeType = getRandomColorCode();
@@ -60,39 +62,33 @@ export default function Board() {
     console.log("L60 randomCode", randomCode);
 
     const evaluation = evaluateGuess(latestGuess, randomCode);
-    setEvaluations((prevEvaluations) => [...prevEvaluations, evaluation]);
+    setEvaluations((prevEvaluations) => [
+      ...prevEvaluations.slice(0, -1),
+      evaluation,
+    ]);
     console.log("Evaluations:", evaluations);
   };
-
-  const evaluateGuess = (guess: CodePosition[], answer: AnswerCodeType) => {
+  //EVALUATE GUESS HERE
+  const evaluateGuess = (guess: AnswerCodeType, answer: AnswerCodeType) => {
     const evaluation: string[] = [];
+
+    const guessColors = guess.map((item) => item.color);
     const answerColors = answer.map((item) => item.color);
-    const matchedIndices: number[] = []; // Keep track of matched indices in the random code
 
-    guess.forEach((position, index) => {
-      const colorIndex = answerColors.indexOf(position.color);
+    // Initialize arrays to keep track of matched indices
+    const matchedIndices: number[] = [];
+    const matchedColors: string[] = [];
 
-      if (
-        position.color === answerColors[index] &&
-        !matchedIndices.includes(index)
-      ) {
-        evaluation.push("match"); // Exact match, black circle
-        matchedIndices.push(index); // Mark the matched index to avoid counting it again
-      } else if (colorIndex !== -1 && !matchedIndices.includes(colorIndex)) {
-        evaluation.push("present"); // Color present but not in the exact position, white circle
-        matchedIndices.push(colorIndex); // Mark the matched index to avoid counting it again
+    for (let i = 0; i < 5; i++) {
+      if (guessColors[i] === answerColors[i]) {
+        evaluation.push("match");
+      } else if (answerColors.includes(guessColors[i])) {
+        evaluation.push("present");
       } else {
-        evaluation.push("miss"); // Color not present, transparent circle
+        evaluation.push("miss");
       }
-    });
-
-    // Fill the remaining positions with transparent
-    const remaining = 5 - evaluation.length;
-    for (let i = 0; i < remaining; i++) {
-      evaluation.push("transparent");
     }
 
-    console.log("Evaluation =>", evaluation);
     return evaluation;
   };
 
@@ -128,9 +124,7 @@ export default function Board() {
               />
             </div>
             <div className="col-span-1">
-              <AnswerRow
-                evaluation={evaluations[evaluations.length - 1] ?? []}
-              />
+              <AnswerRow evaluation={evaluations[index]} />
             </div>
           </div>
         ))}
