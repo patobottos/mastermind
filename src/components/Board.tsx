@@ -73,16 +73,25 @@ export default function Board() {
   const evaluateGuess = (guess: AnswerCodeType, answer: AnswerCodeType) => {
     const evaluation: string[] = [];
 
-    const guessColors = guess.map((item) => item.color);
-    const answerColors = answer.map((item) => item.color);
+    const theGuessArray = guess;
+    console.log("the guess array", theGuessArray);
+    const theAnswerArray = answer;
+    console.log("the answer array", theAnswerArray);
 
-    for (let i = 0; i < 5; i++) {
-      if (guessColors[i] === answerColors[i]) {
-        evaluation.push("match");
-      } else if (answerColors.includes(guessColors[i])) {
-        evaluation.push("present");
+    for (let i = 0; i < guess.length; i++) {
+      const guessColor = guess[i].color;
+      const answerColor = answer[i].color;
+
+      if (guessColor === answerColor) {
+        evaluation[i] = "match";
+        //theAnswerArray.splice(i);
       } else {
-        evaluation.push("miss");
+        const answerColors = theAnswerArray.map((item) => item.color);
+        if (!answerColors.includes(guessColor)) {
+          evaluation[i] = "miss";
+        } else {
+          evaluation[i] = "present";
+        }
       }
     }
 
@@ -105,13 +114,13 @@ export default function Board() {
 
       <h2>The board here:</h2>
 
-      <div className="border-4 border-pink-400 flex flex-col justify-center sm:px-0 my-2">
+      <div className="border-4 border-pink-400 flex flex-col justify-center sm:px-10 my-2">
         {playersChances.map((item, index) => (
           <div
             key={tryNumber}
             className="border-2 border-yellow-200 flex justify-center py-1 items-center"
           >
-            <div className="col-span-2 mr-4">
+            <div className="col-span-2 mr-2 sm:mr-4">
               <ColorButtonRow
                 guessingCode={initialColorValues}
                 size="large"
