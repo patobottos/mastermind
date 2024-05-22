@@ -13,8 +13,11 @@ const config: Config = {
         xxs: { max: "359px" },
         // => @media (max-width: 359px) { ... }
 
-        xs: { min: "360px", max: "474px" },
-        // => @media (min-width: 360px) and (max-width: 474px) { ... }
+        xs: { min: "360px", max: "374px" },
+        // => @media (min-width: 360px) and (max-width: 374px) { ... }
+
+        s: { min: "375px", max: "474px" },
+        // => @media (min-width: 375px) and (max-width: 474px) { ... }
 
         sm: { min: "475px", max: "639px" },
         // => @media (min-width: 475px) and (max-width: 639px) { ... }
@@ -30,17 +33,20 @@ const config: Config = {
 
         "2xl": { min: "1280px", max: "1535px" },
         // => @media (min-width: 1280px) and (max-width: 1535px) { ... }
+
+        "3xl": { min: "1536px" },
+        // => @media (min-width: 1536px) { ... }
       },
       colors: {
-        'crimson': '#FF4136',
-        'sunrise': '#FF851B',
-        'sunny': '#FFDC00',
-        'emerald': '#2ECC40',
-        'azure': '#0074D9',
-        'velvet': '#B10DC9',
-        'skyblue': '#7FDBFF',
-        'rosy': '#FF69B4',
-        'gold': '#FFD700',
+        crimson: "#FF4136",
+        sunrise: "#FF851B",
+        sunny: "#FFDC00",
+        emerald: "#2ECC40",
+        azure: "#0074D9",
+        velvet: "#B10DC9",
+        skyblue: "#7FDBFF",
+        rosy: "#FF69B4",
+        gold: "#FFD700",
       },
     },
   },

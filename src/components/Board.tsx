@@ -114,13 +114,13 @@ export default function Board() {
 
       <h2>The board here:</h2>
 
-      <div className="border-4 border-pink-400 flex flex-col justify-center sm:px-10 my-2">
+      <div className="border-4 border-red-600 flex flex-col justify-center mx-20">
         {playersChances.map((item, index) => (
           <div
             key={tryNumber}
             className="border-2 border-yellow-200 flex justify-center py-1 items-center"
           >
-            <div className="col-span-2 mr-2 sm:mr-4">
+            <div className="col-span-2 mr-4 xxs:mr-0 xs:mr-0 s:mr-1">
               <ColorButtonRow
                 guessingCode={initialColorValues}
                 size="large"
