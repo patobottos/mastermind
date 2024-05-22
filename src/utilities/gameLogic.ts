@@ -1,5 +1,3 @@
-import getRandomCode from "./randomCodeGenerator";
-
 const CircleColorVariants: { [key: string]: string } = {
   crimson: "bg-crimson",
   sunrise: "bg-sunrise",
@@ -8,7 +6,7 @@ const CircleColorVariants: { [key: string]: string } = {
   azure: "bg-azure",
   velvet: "bg-velvet",
   skyblue: "bg-skyblue",
-  rosy: "bg-rosy"
+  rosy: "bg-rosy",
 };
 
 export enum GuessedColorState {
@@ -18,59 +16,63 @@ export enum GuessedColorState {
 }
 
 export const GuessedColorStateStyles = {
-  [GuessedColorState.Miss]: 'border-gray-600 bg-transparent',
-  [GuessedColorState.Present]: 'border-gray-600 bg-white',
-  [GuessedColorState.Match]: 'border-gray-600 bg-black',
+  [GuessedColorState.Miss]: "border-gray-600 bg-transparent",
+  [GuessedColorState.Present]: "border-gray-600 bg-white",
+  [GuessedColorState.Match]: "border-gray-600 bg-black",
 };
 
 export function computeGuess(
   guessingCode: string[],
   answerCode: string[]
 ): GuessedColorState[] {
-  const CODE: string[] = getRandomCode().map((number) => CircleColorVariants[number]);
+  const results: GuessedColorState[] = new Array(guessingCode.length).fill(
+    GuessedColorState.Miss
+  );
 
-  // FIRST, WE CHECK FOR A FULL MATCH CASE
-  if (guessingCode.every((val, index) => val === answerCode[index])) {
-    return Array.from({ length: guessingCode.length }, () => GuessedColorState.Match);
-  }
-
-  const results: GuessedColorState[] = [];
-  const answerColorCount: Record<string, number> = {};
-
-  // IT RETURNS AN EMPTY ARRAY OF STATES WHEN WORDS HAVE DIFFERENT LENGTH
   if (guessingCode.length !== answerCode.length) {
     return results;
   }
 
-  // IT COUNTS THE OCCURRENCES OF EACH COLOR IN THE ANSWER CODE
-  answerCode.forEach(color => {
+  const answerColorCount: Record<string, number> = {};
+  answerCode.forEach((color) => {
     answerColorCount[color] = (answerColorCount[color] || 0) + 1;
   });
 
-  // FUNCTION TO CHECK THE COLOR EXISTS, AND IT'S IN THE RIGHT LOCATION (BLACK COLOR)
-  function isMatch(guess: string, _answer: string, guessIndex: number): boolean {
-    return answerColorCount[guess] > 0 && guessIndex === answerCode.indexOf(guess);
+  // First pass: identify exact matches
+  for (let i = 0; i < guessingCode.length; i++) {
+    if (guessingCode[i] === answerCode[i]) {
+      results[i] = GuessedColorState.Match;
+      answerColorCount[guessingCode[i]]--;
+    }
   }
 
-  // FUNCTION TO CHECK THE COLOR EXISTS, BUT IS NOT IN THE RIGHT POSITION (WHITE COLOR)
-  function isPresent(guess: string, _answer: string, guessIndex: number): boolean {
-    return answerColorCount[guess] > 0 && guessIndex !== answerCode.indexOf(guess);
-  }
+  // Second pass: identify presents
+  for (let i = 0; i < guessingCode.length; i++) {
+    if (results[i] === GuessedColorState.Match) {
+      continue;
+    }
 
-  for (let i = 0; i < answerCode.length; i++) {
-    if (isMatch(guessingCode[i], answerCode[i], i)) {
-      results.push(GuessedColorState.Match);
-      // Decrement the count to handle repeated letters
-      answerColorCount[guessingCode[i]]--;
-    } else if (isPresent(guessingCode[i], answerCode[i], i)) {
-      results.push(GuessedColorState.Present);
-      // Decrement the count to handle repeated letters
-      answerColorCount[guessingCode[i]]--;
+    if (
+      answerColorCount[guessingCode[i]] > 0 &&
+      answerCode.includes(guessingCode[i])
+    ) {
+      let present = false;
+      for (let j = 0; j < answerCode.length; j++) {
+        if (
+          guessingCode[i] === answerCode[j] &&
+          results[j] !== GuessedColorState.Match &&
+          answerColorCount[guessingCode[i]] > 0
+        ) {
+          present = true;
+          answerColorCount[guessingCode[i]]--;
+          break;
+        }
+      }
+      results[i] = present ? GuessedColorState.Present : GuessedColorState.Miss;
     } else {
-      results.push(GuessedColorState.Miss);
+      results[i] = GuessedColorState.Miss;
     }
   }
 
   return results;
 }
-
