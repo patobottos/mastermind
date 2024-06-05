@@ -68,7 +68,7 @@ export default function Board() {
 
   return (
     <div className="text-white w-[80vw] flex flex-col items-center justify-center m-auto">
-      <div>
+      <div className="flex flex-col items-center justify-center">
         <p>Random Generated Code:</p>
         <div className="flex">
           {randomCode.map((CodePosition, index) => (
@@ -79,11 +79,11 @@ export default function Board() {
 
       <h2>The board here:</h2>
 
-      <div className="border-4 border-red-600 flex flex-col justify-center mx-20">
+      <div className="flex flex-col justify-center mx-20">
         {playersChances.map((item, index) => (
           <div
             key={tryNumber}
-            className="border-2 border-yellow-200 flex justify-center py-1 items-center"
+            className="flex justify-center py-1 items-center"
           >
             <div className="col-span-2 mr-4 xxs:mr-0 xs:mr-0 s:mr-1">
               <ColorButtonRow
@@ -94,7 +94,7 @@ export default function Board() {
                 }
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 border-2 border-yellow-200 ">
               <AnswerRow evaluation={evaluations[index]} />
             </div>
           </div>
