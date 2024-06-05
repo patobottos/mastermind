@@ -11,7 +11,6 @@ import Circle from "./Circle";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
-import { GUESS_CHANCES } from "@/utilities/store";
 import { evaluateGuess } from "@/utilities/evaluateGuess";
 
 type PlayerGuess = {
@@ -55,26 +54,20 @@ export default function Board() {
       tryNumber: tryNumber,
       guess: latestGuess,
     };
-    console.log("Player's Guess:", newGuess);
 
     setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
-
-    console.log("L59 latestGuess", latestGuess);
-    console.log("L60 randomCode", randomCode);
 
     const evaluation = evaluateGuess(latestGuess, randomCode);
     setEvaluations((prevEvaluations) => [
       ...prevEvaluations.slice(0, -1),
       evaluation,
     ]);
-    console.log("Evaluations:", evaluations);
   };
 
-  console.log("Player Guesses L99", playerGuesses);
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <div className="text-white w-[80vw] flex flex-col items-center justify-center">
+    <div className="text-white w-[80vw] flex flex-col items-center justify-center m-auto">
       <div>
         <p>Random Generated Code:</p>
         <div className="flex">
