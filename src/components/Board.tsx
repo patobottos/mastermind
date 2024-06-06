@@ -1,61 +1,42 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   getRandomColorCode,
   CodePosition,
-  AnswerCodeType,
 } from "@/utilities/randomCodeGenerator";
-import { initialColorValues, radioColorValues } from "./ColorButton";
+import { useGameStore } from "@/utilities/store";
 import Circle from "./Circle";
+import { initialColorValues } from "./ColorButton";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
-import { evaluateGuess } from "@/utilities/evaluateGuess";
-
-type PlayerGuess = {
-  tryNumber: number;
-  guess: CodePosition[];
-};
 
 export default function Board() {
-  const [randomCode, setRandomCode] = useState<AnswerCodeType>([]);
-  const [tryNumber, setTryNumber] = useState<number>(1);
-  const [playerGuesses, setPlayerGuesses] = useState<PlayerGuess[]>([]);
-  const [evaluations, setEvaluations] = useState<string[][]>(
-    Array.from({ length: 8 }, () => Array(5).fill("")) // Initialize with 8 empty arrays, each containing 5 empty strings
-  );
+  const {
+    tryNumber,
+    gameState,
+    playerGuesses,
+    evaluations,
+    randomCode,
+    initializeGame,
+    makeGuess,
+    evaluateGuess,
+  } = useGameStore();
 
   useEffect(() => {
-    const generatedCode: AnswerCodeType = getRandomColorCode();
-    setRandomCode(generatedCode);
-    console.log("Generated Code:", generatedCode);
-  }, []);
+    initializeGame();
+  }, [initializeGame]);
 
   const handleColorChange = (color: string, position: number) => {
-    setPlayerGuesses((prevGuesses) => {
-      const currentPlayerGuess = prevGuesses[tryNumber - 1]?.guess || [];
-      const updatedGuess = [...currentPlayerGuess];
-      updatedGuess[position - 1] = { position: position, color: color };
-
-      const newGuesses = [...prevGuesses];
-      newGuesses[tryNumber - 1] = { tryNumber, guess: updatedGuess };
-
-      return newGuesses;
-    });
+    const currentPlayerGuess = playerGuesses[tryNumber - 1]?.guess || [];
+    const updatedGuess = [...currentPlayerGuess];
+    updatedGuess[position - 1] = { position: position, color: color };
+    makeGuess(updatedGuess);
   };
 
   const handleCheckButtonClick = () => {
-    const latestGuess = playerGuesses[tryNumber - 1]?.guess || [];
-    const evaluation = evaluateGuess(latestGuess, randomCode);
-
-    setEvaluations((prevEvaluations) => {
-      const newEvaluations = [...prevEvaluations];
-      newEvaluations[tryNumber - 1] = evaluation;
-      return newEvaluations;
-    });
-
-    setTryNumber((prevTryNumber) => prevTryNumber + 1);
+    evaluateGuess();
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -92,6 +73,14 @@ export default function Board() {
         ))}
       </div>
       <CheckButton onClick={handleCheckButtonClick} />
+      {gameState !== "playing" && (
+        <div>
+          {gameState === "won"
+            ? "Congratulations! You've won!"
+            : "You've lost!"}
+        </div>
+      )}
+
       {/* WHEN GAME OVER, RANDOM CODE SHOULD DISPLAY, TOGETHER WITH NUMBER OF TRIES AND CONGRATULATIONS!! */}
       {tryNumber > 8 && (
         <div className="flex flex-col items-center justify-center">

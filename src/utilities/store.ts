@@ -1,31 +1,63 @@
-import create from "zustand";
-import { getRandomColorCode, CodePosition } from "./randomCodeGenerator";
-import { computeGuess, GuessedColorState } from "./gameLogic";
+import { create } from "zustand";
+import {
+  PlayerGuess,
+  AnswerCodeType,
+  CodePosition,
+} from "./randomCodeGenerator";
+import { getRandomColorCode } from "./randomCodeGenerator";
+import { evaluateGuess } from "./evaluateGuess";
 
-export const CODE_LENGTH = 5;
-export const GUESS_CHANCES = 8;
-
-type GuessRow = {
-  guess: CodePosition[]; // Adjust the type to CodePosition[]
-  result?: GuessedColorState[];
-};
-
-type StoreState = {
-  answerCode: CodePosition[]; // Adjust the type to CodePosition[]
-  guessRows: GuessRow[];
+type GameState = {
+  tryNumber: number;
   gameState: "playing" | "won" | "lost";
-  addGuess: (guess: CodePosition[]) => void; // Adjust the type to CodePosition[]
-  bears: number;
-  increase: (by: number) => void;
+  playerGuesses: PlayerGuess[];
+  evaluations: string[][];
+  randomCode: AnswerCodeType;
+  initializeGame: () => void;
+  makeGuess: (guess: CodePosition[]) => void;
+  evaluateGuess: () => void;
 };
 
-export const useStore = create<StoreState>((set, get) => ({
-  answerCode: getRandomColorCode(),
-  guessRows: [] as GuessRow[],
+export const useGameStore = create<GameState>((set) => ({
+  tryNumber: 1,
   gameState: "playing",
-  bears: 0,
-  addGuess: (guess: CodePosition[]) => {
-    // Your logic for adding a guess goes here
+  playerGuesses: [],
+  evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
+  randomCode: [],
+  initializeGame: () => {
+    const generatedCode = getRandomColorCode();
+    set({
+      tryNumber: 1,
+      gameState: "playing",
+      playerGuesses: [],
+      evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
+      randomCode: generatedCode,
+    });
   },
-  increase: (by) => set((state) => ({ bears: state.bears + by })),
+  makeGuess: (guess) =>
+    set((state) => ({
+      playerGuesses: [
+        ...state.playerGuesses,
+        { tryNumber: state.tryNumber, guess },
+      ],
+    })),
+  evaluateGuess: () =>
+    set((state) => {
+      const latestGuess = state.playerGuesses[state.tryNumber - 1]?.guess || [];
+      const evaluation = evaluateGuess(latestGuess, state.randomCode);
+
+      const isCorrect = evaluation.every((color) => color === "black");
+
+      return {
+        evaluations: state.evaluations.map((evalRow, index) =>
+          index === state.tryNumber - 1 ? evaluation : evalRow
+        ),
+        tryNumber: state.tryNumber + 1,
+        gameState: isCorrect
+          ? "won"
+          : state.tryNumber >= 8
+          ? "lost"
+          : "playing",
+      };
+    }),
 }));

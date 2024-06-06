@@ -14,6 +14,17 @@ export default function getRandomCode(): number[] {
   return CODE;
 }
 
+export function getRandomColorCode(): CodePosition[] {
+  const CODE: number[] = getRandomCode();
+
+  const AnswerCode: AnswerCodeType = CODE.map((item, index) => ({
+    position: index + 1,
+    color: CircleColorVariants[item],
+  }));
+
+  return AnswerCode;
+}
+
 const CircleColorVariants: { [key: number]: string } = {
   0: "crimson",
   1: "sunrise",
@@ -22,7 +33,7 @@ const CircleColorVariants: { [key: number]: string } = {
   4: "azure",
   5: "velvet",
   6: "skyblue",
-  7: "rosy"
+  7: "rosy",
 };
 
 export type CodePosition = {
@@ -32,17 +43,7 @@ export type CodePosition = {
 
 export type AnswerCodeType = CodePosition[];
 
-export function getRandomColorCode(): CodePosition[] {
-  const CODE: number[] = getRandomCode();
-
-  const AnswerCode: AnswerCodeType = CODE.map((item, index) => ({
-    position: index + 1,
-    color: CircleColorVariants[item]
-  }));
-
-  // console.log('Generated Code:', CODE);
-  // console.log('Answer Code :', AnswerCode);
-  return AnswerCode;
-}
-
-
+export type PlayerGuess = {
+  tryNumber: number;
+  guess: CodePosition[];
+};
