@@ -40,9 +40,9 @@ export default function ColorButton({
   onColorChange,
 }: ColorButtonProps) {
   const sizeVariants = {
-    small: "h-5 w-5",
-    medium: "h-8 w-8",
-    large: "h-10 w-10",
+    small: "h-4 w-4",
+    medium: "h-7 w-7",
+    large: "h-9 w-9",
   };
 
   const [selectedColor, setSelectedColor] = useState(
