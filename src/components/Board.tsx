@@ -92,7 +92,8 @@ export default function Board() {
         ))}
       </div>
       <CheckButton onClick={handleCheckButtonClick} />
-      {tryNumber >= 8 && (
+      {/* WHEN GAME OVER, RANDOM CODE SHOULD DISPLAY, TOGETHER WITH NUMBER OF TRIES AND CONGRATULATIONS!! */}
+      {tryNumber > 8 && (
         <div className="flex flex-col items-center justify-center">
           <p>Random Generated Code:</p>
           <div className="flex">
