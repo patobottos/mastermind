@@ -61,7 +61,7 @@ export default function Board() {
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <div className="text-white w-[80vw] flex flex-col items-center justify-center m-auto">
+    <div className="text-white w-[80vw] flex flex-col items-center">
       <div className="flex flex-col items-center justify-center">
         <p>Random Generated Code:</p>
         <div className="flex">
@@ -75,8 +75,8 @@ export default function Board() {
 
       <div className="flex flex-col justify-center mx-20">
         {playersChances.map((_, index) => (
-          <div key={index} className="flex justify-center py-1 items-center">
-            <div className="col-span-2 mr-4 xxs:mr-0 xs:mr-0 s:mr-1">
+          <div key={index} className="flex justify-center py-1 items-center ">
+            <div className="col-span-2 mr-5 xs:mr-3 s:mr-4">
               <ColorButtonRow
                 guessingCode={initialColorValues}
                 size="large"
@@ -85,13 +85,23 @@ export default function Board() {
                 }
               />
             </div>
-            <div className="col-span-1 border-2 border-yellow-200 ">
+            <div className="col-span-1">
               <AnswerRow evaluation={evaluations[index]} />
             </div>
           </div>
         ))}
       </div>
       <CheckButton onClick={handleCheckButtonClick} />
+      {tryNumber >= 8 && (
+        <div className="flex flex-col items-center justify-center">
+          <p>Random Generated Code:</p>
+          <div className="flex">
+            {randomCode.map((CodePosition, index) => (
+              <Circle key={index} size="large" color={CodePosition.color} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
