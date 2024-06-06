@@ -6,7 +6,7 @@ import {
   CodePosition,
   AnswerCodeType,
 } from "@/utilities/randomCodeGenerator";
-import { initialColorValues } from "./ColorButton";
+import { initialColorValues, radioColorValues } from "./ColorButton";
 import Circle from "./Circle";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
@@ -33,35 +33,29 @@ export default function Board() {
   }, []);
 
   const handleColorChange = (color: string, position: number) => {
-    const currentPlayerGuess: CodePosition[] =
-      playerGuesses.length > 0
-        ? [...playerGuesses[playerGuesses.length - 1].guess]
-        : [];
-    const updatedGuess = [...currentPlayerGuess];
-    updatedGuess[position - 1] = { position: position, color: color };
-    setPlayerGuesses((prevGuesses) => [
-      ...prevGuesses.slice(0, prevGuesses.length - 1),
-      {
-        tryNumber: tryNumber,
-        guess: updatedGuess,
-      },
-    ]);
+    setPlayerGuesses((prevGuesses) => {
+      const currentPlayerGuess = prevGuesses[tryNumber - 1]?.guess || [];
+      const updatedGuess = [...currentPlayerGuess];
+      updatedGuess[position - 1] = { position: position, color: color };
+
+      const newGuesses = [...prevGuesses];
+      newGuesses[tryNumber - 1] = { tryNumber, guess: updatedGuess };
+
+      return newGuesses;
+    });
   };
 
   const handleCheckButtonClick = () => {
-    const latestGuess = playerGuesses[playerGuesses.length - 1]?.guess || [];
-    const newGuess: PlayerGuess = {
-      tryNumber: tryNumber,
-      guess: latestGuess,
-    };
-
-    setPlayerGuesses((prevGuesses) => [...prevGuesses, newGuess]);
-
+    const latestGuess = playerGuesses[tryNumber - 1]?.guess || [];
     const evaluation = evaluateGuess(latestGuess, randomCode);
-    setEvaluations((prevEvaluations) => [
-      ...prevEvaluations.slice(0, -1),
-      evaluation,
-    ]);
+
+    setEvaluations((prevEvaluations) => {
+      const newEvaluations = [...prevEvaluations];
+      newEvaluations[tryNumber - 1] = evaluation;
+      return newEvaluations;
+    });
+
+    setTryNumber((prevTryNumber) => prevTryNumber + 1);
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -80,11 +74,8 @@ export default function Board() {
       <h2>The board here:</h2>
 
       <div className="flex flex-col justify-center mx-20">
-        {playersChances.map((item, index) => (
-          <div
-            key={tryNumber}
-            className="flex justify-center py-1 items-center"
-          >
+        {playersChances.map((_, index) => (
+          <div key={index} className="flex justify-center py-1 items-center">
             <div className="col-span-2 mr-4 xxs:mr-0 xs:mr-0 s:mr-1">
               <ColorButtonRow
                 guessingCode={initialColorValues}
