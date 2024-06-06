@@ -14,16 +14,17 @@ type GameState = {
   evaluations: string[][];
   randomCode: AnswerCodeType;
   initializeGame: () => void;
-  makeGuess: (guess: CodePosition[]) => void;
+  makeGuess: (position: number, color: string) => void;
   evaluateGuess: () => void;
 };
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   tryNumber: 1,
   gameState: "playing",
   playerGuesses: [],
   evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
   randomCode: [],
+
   initializeGame: () => {
     const generatedCode = getRandomColorCode();
     set({
@@ -34,24 +35,41 @@ export const useGameStore = create<GameState>((set) => ({
       randomCode: generatedCode,
     });
   },
-  makeGuess: (guess) =>
-    set((state) => ({
-      playerGuesses: [
-        ...state.playerGuesses,
-        { tryNumber: state.tryNumber, guess },
-      ],
-    })),
+
+  makeGuess: (position, color) =>
+    set((state) => {
+      const currentTry = state.tryNumber - 1;
+      const currentGuess =
+        state.playerGuesses[currentTry]?.guess ||
+        Array(5).fill({ position: 0, color: "" });
+
+      const updatedGuess = [...currentGuess];
+      updatedGuess[position - 1] = { position, color };
+
+      const newGuesses = [...state.playerGuesses];
+      newGuesses[currentTry] = {
+        tryNumber: state.tryNumber,
+        guess: updatedGuess,
+      };
+
+      return {
+        playerGuesses: newGuesses,
+      };
+    }),
+
   evaluateGuess: () =>
     set((state) => {
-      const latestGuess = state.playerGuesses[state.tryNumber - 1]?.guess || [];
+      const currentTry = state.tryNumber - 1;
+      const latestGuess = state.playerGuesses[currentTry]?.guess || [];
       const evaluation = evaluateGuess(latestGuess, state.randomCode);
 
       const isCorrect = evaluation.every((color) => color === "black");
 
+      const newEvaluations = [...state.evaluations];
+      newEvaluations[currentTry] = evaluation;
+
       return {
-        evaluations: state.evaluations.map((evalRow, index) =>
-          index === state.tryNumber - 1 ? evaluation : evalRow
-        ),
+        evaluations: newEvaluations,
         tryNumber: state.tryNumber + 1,
         gameState: isCorrect
           ? "won"

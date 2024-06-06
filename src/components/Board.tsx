@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  getRandomColorCode,
-  CodePosition,
-} from "@/utilities/randomCodeGenerator";
 import { useGameStore } from "@/utilities/store";
 import Circle from "./Circle";
 import { initialColorValues } from "./ColorButton";
@@ -29,10 +25,7 @@ export default function Board() {
   }, [initializeGame]);
 
   const handleColorChange = (color: string, position: number) => {
-    const currentPlayerGuess = playerGuesses[tryNumber - 1]?.guess || [];
-    const updatedGuess = [...currentPlayerGuess];
-    updatedGuess[position - 1] = { position: position, color: color };
-    makeGuess(updatedGuess);
+    makeGuess(position, color);
   };
 
   const handleCheckButtonClick = () => {
