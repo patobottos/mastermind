@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ColorButton from "./ColorButton";
-import { CODE_LENGTH } from "@/utilities/store";
 import { radioColorValues } from "./ColorButton";
 
 type ColorButtonRowProps = {
@@ -19,11 +18,7 @@ export default function ColorButtonRow({
   >(null);
 
   const handleColorPickerToggle = (index: number) => {
-    if (openColorPickerIndex === index) {
-      setOpenColorPickerIndex(null); // Close if already open
-    } else {
-      setOpenColorPickerIndex(index); // Open the ColorPicker for this index
-    }
+    setOpenColorPickerIndex(index === openColorPickerIndex ? null : index);
   };
 
   return (
