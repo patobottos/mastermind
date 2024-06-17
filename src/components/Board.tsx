@@ -66,25 +66,24 @@ export default function Board() {
         ))}
       </div>
       <CheckButton onClick={handleCheckButtonClick} />
-      {gameState !== "playing" && (
-        <div>
-          {gameState === "won"
-            ? "Congratulations! You've won!"
-            : "You've lost!"}
-        </div>
-      )}
+      <div className="flex flex-col items-center justify-center">
+        {gameState === "won" && <p>Congratulations! You've won!</p>}
 
-      {/* WHEN GAME OVER, RANDOM CODE SHOULD DISPLAY, TOGETHER WITH NUMBER OF TRIES AND CONGRATULATIONS!! */}
-      {tryNumber > 8 && (
-        <div className="flex flex-col items-center justify-center">
-          <p>Random Generated Code:</p>
-          <div className="flex">
-            {randomCode.map((CodePosition, index) => (
-              <Circle key={index} size="large" color={CodePosition.color} />
-            ))}
+        {/* WHEN GAME OVER, THE ANSWER CODE SHOULD DISPLAY */}
+        {gameState === "lost" && (
+          <div>
+            <p>
+              You've reached the maximun number of tries. You've lost. The
+              answer code was:
+            </p>
+            <div className="flex">
+              {randomCode.map((CodePosition, index) => (
+                <Circle key={index} size="large" color={CodePosition.color} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

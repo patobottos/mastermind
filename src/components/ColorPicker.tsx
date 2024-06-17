@@ -21,7 +21,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           border-b-[8px] border-b-slate-700
           border-r-[6px] border-r-transparent"
       ></div>
-      <div className="flex justify-center border-2 border-slate-800 bg-slate-700 rounded-xl p-1 shadow-lg">
+      <div className="flex border-2 border-slate-800 bg-slate-700 rounded-xl p-1 shadow-lg">
         <fieldset className="grid grid-cols-3 gap-1">
           {colors.map((color) => (
             <label

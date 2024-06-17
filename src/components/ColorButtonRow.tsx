@@ -5,7 +5,7 @@ import { radioColorValues } from "./ColorButton";
 type ColorButtonRowProps = {
   guessingCode: radioColorValues[];
   size: "small" | "medium" | "large";
-  onColorChange: (color: string, position: number) => void; // Updated onColorChange type
+  onColorChange: (color: string, position: number) => void;
 };
 
 export default function ColorButtonRow({
