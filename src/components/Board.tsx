@@ -63,7 +63,7 @@ export default function Board() {
                 onColorChange={(color, position) =>
                   handleColorChange(color, position)
                 }
-                isEnabled={index + 1 === tryNumber}
+                isEnabled={index + 1 === tryNumber && gameState === "playing"}
               />
             </div>
             <div className="col-span-1">
@@ -72,9 +72,23 @@ export default function Board() {
           </div>
         ))}
       </div>
-      <CheckButton onClick={handleCheckButtonClick} />
+      {gameState === "playing" && (
+        <CheckButton onClick={handleCheckButtonClick} />
+      )}
       <div className="flex flex-col items-center justify-center">
-        {gameState === "won" && <p>Congratulations! You've won!</p>}
+        {gameState === "won" && (
+          <div>
+            <p>
+              Congratulations! You've won! It has taken you{" "}
+              {tryNumber === 1 ? "just one try" : `\`${tryNumber}\` tries`}{" "}
+            </p>
+            <div className="flex">
+              {randomCode.map((CodePosition, index) => (
+                <Circle key={index} size="large" color={CodePosition.color} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* WHEN GAME OVER, THE ANSWER CODE SHOULD DISPLAY */}
         {gameState === "lost" && (

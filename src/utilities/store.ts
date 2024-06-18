@@ -1,9 +1,5 @@
 import { create } from "zustand";
-import {
-  PlayerGuess,
-  AnswerCodeType,
-  CodePosition,
-} from "./randomCodeGenerator";
+import { PlayerGuess, AnswerCodeType } from "./randomCodeGenerator";
 import { getRandomColorCode } from "./randomCodeGenerator";
 import { evaluateGuess } from "./evaluateGuess";
 
@@ -59,7 +55,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   evaluateGuess: () =>
     set((state) => {
-      const currentTry = state.tryNumber - 1;
+      const currentTry = state.tryNumber;
+      console.log("CURRENT TRY =>", currentTry);
       const latestGuess = state.playerGuesses[currentTry]?.guess || [];
       const evaluation = evaluateGuess(latestGuess, state.randomCode);
 
@@ -70,7 +67,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       return {
         evaluations: newEvaluations,
-        tryNumber: state.tryNumber + 1,
+        tryNumber: isCorrect ? state.tryNumber : state.tryNumber + 1,
         gameState: isCorrect
           ? "won"
           : state.tryNumber >= 8
