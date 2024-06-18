@@ -6,12 +6,14 @@ type ColorButtonRowProps = {
   guessingCode: radioColorValues[];
   size: "small" | "medium" | "large";
   onColorChange: (color: string, position: number) => void;
+  isEnabled: boolean; //
 };
 
 export default function ColorButtonRow({
   guessingCode = [],
   size,
   onColorChange,
+  isEnabled,
 }: ColorButtonRowProps) {
   const [openColorPickerIndex, setOpenColorPickerIndex] = useState<
     number | null
@@ -30,7 +32,7 @@ export default function ColorButtonRow({
           size={size}
           position={index + 1} // Pass the position to the ColorButton component
           onColorChange={onColorChange} // Pass the onColorChange function
-          isOpen={openColorPickerIndex === index}
+          isOpen={isEnabled && openColorPickerIndex === index}
           onToggle={() => handleColorPickerToggle(index)}
         />
       ))}

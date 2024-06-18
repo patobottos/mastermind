@@ -29,6 +29,12 @@ export default function Board() {
   };
 
   const handleCheckButtonClick = () => {
+    const currentGuess =
+      playerGuesses[tryNumber - 1]?.guess || initialColorValues;
+    if (currentGuess.some((color) => color.color === "transparent")) {
+      alert("Please, pick a color for each circle and try again.");
+      return;
+    }
     evaluateGuess();
   };
 
@@ -57,6 +63,7 @@ export default function Board() {
                 onColorChange={(color, position) =>
                   handleColorChange(color, position)
                 }
+                isEnabled={index + 1 === tryNumber}
               />
             </div>
             <div className="col-span-1">
