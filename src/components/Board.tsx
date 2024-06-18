@@ -80,7 +80,9 @@ export default function Board() {
           <div>
             <p>
               Congratulations! You've won! It has taken you{" "}
-              {tryNumber === 1 ? "just one try" : `\`${tryNumber}\` tries`}{" "}
+              {tryNumber === 1
+                ? "just one try!"
+                : `\`${tryNumber}\` tries. The average is A NUMBER HERE.`}{" "}
             </p>
             <div className="flex">
               {randomCode.map((CodePosition, index) => (
