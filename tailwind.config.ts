@@ -11,31 +11,31 @@ const config: Config = {
     extend: {
       screens: {
         xxs: { max: "359px" },
-        // => @media (max-width: 359px) { ... }
+        // => @media (max-width: 359px) styles will apply to any screen up to 359px
 
-        xs: { min: "360px", max: "374px" },
-        // => @media (min-width: 360px) and (max-width: 374px) { ... }
+        xs: { min: "360px" },
+        // => @media (min-width: 360px) styles will apply from 360px and above.
 
-        s: { min: "375px", max: "474px" },
-        // => @media (min-width: 375px) and (max-width: 474px) { ... }
+        s: { min: "375px" },
+        // => @media (min-width: 375px) styles will apply from 375px and above.
 
-        sm: { min: "475px", max: "639px" },
-        // => @media (min-width: 475px) and (max-width: 639px) { ... }
+        sm: { min: "475px" },
+        // => @media (min-width: 475px) styles will apply from 475px and above.
 
-        md: { min: "640px", max: "767px" },
-        // => @media (min-width: 640px) and (max-width: 767px) { ... }
+        md: { min: "640px" },
+        // => @media (min-width: 640px) styles will apply from 640px and above.
 
-        lg: { min: "768px", max: "1023px" },
-        // => @media (min-width: 768px) and (max-width: 1023px) { ... }
+        lg: { min: "768px" },
+        // => @media (min-width: 768px) styles will apply from 768px and above.
 
-        xl: { min: "1024px", max: "1279px" },
-        // => @media (min-width: 1024px) and (max-width: 1279px) { ... }
+        xl: { min: "1024px" },
+        // => @media (min-width: 1024px) styles will apply from 1024x and above.
 
-        "2xl": { min: "1280px", max: "1535px" },
-        // => @media (min-width: 1280px) and (max-width: 1535px) { ... }
+        "2xl": { min: "1280px" },
+        // => @media (min-width: 1280px) styles will apply from 1280px and above.
 
         "3xl": { min: "1536px" },
-        // => @media (min-width: 1536px) { ... }
+        // => @media (min-width: 1536px) styles will apply from 1536px and above.
       },
       colors: {
         crimson: "#FF4136",

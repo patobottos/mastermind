@@ -7,6 +7,7 @@ import { initialColorValues } from "./ColorButton";
 import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
+import NewGameButton from "./NewGameButton";
 
 export default function Board() {
   const {
@@ -38,10 +39,14 @@ export default function Board() {
     evaluateGuess();
   };
 
+  const handleNewGameClick = () => {
+    initializeGame();
+  };
+
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
-    <div className="text-white w-[80vw] flex flex-col items-center">
+    <div className="text-white flex flex-col items-center relative">
       <div className="flex flex-col items-center justify-center">
         <p>Random Generated Code:</p>
         <div className="flex">
@@ -51,12 +56,11 @@ export default function Board() {
         </div>
       </div>
 
-      <h2>The board here:</h2>
-
+      {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES*/}
       <div className="flex flex-col justify-center mx-20">
         {playersChances.map((_, index) => (
-          <div key={index} className="flex justify-center py-1 items-center ">
-            <div className="col-span-2 mr-5 xs:mr-3 s:mr-4">
+          <div key={index} className="flex justify-center py-1 items-center">
+            <div className="col-span-1 mr-1 sm:mr-4">
               <ColorButtonRow
                 guessingCode={initialColorValues}
                 size="large"
@@ -75,38 +79,45 @@ export default function Board() {
       {gameState === "playing" && (
         <CheckButton onClick={handleCheckButtonClick} />
       )}
-      <div className="flex flex-col items-center justify-center">
-        {gameState === "won" && (
-          <div>
-            <p>
-              Congratulations! You've won! It has taken you{" "}
-              {tryNumber === 1
-                ? "just one try!"
-                : `\`${tryNumber}\` tries. The average is A NUMBER HERE.`}{" "}
-            </p>
-            <div className="flex">
-              {randomCode.map((CodePosition, index) => (
-                <Circle key={index} size="large" color={CodePosition.color} />
-              ))}
+      {/* THIS IS THE FINAL SCREEN */}
+      {gameState !== "playing" && (
+        <div className="absolute inset-0 flex flex-col justify-start items-center pt-12 px-5 text-slate-800 top-0 bg-teal-50 bg-opacity-90 border border-teal-700 rounded-md text-center left-0 right-0 mx-auto w-[346px] h-[520px]  backdrop-blur-sm shadow-2xl shadow-teal-500/40">
+          {gameState === "won" && (
+            <>
+              <p className="text-pretty font-medium">
+                Congratulations! You've won! It has taken you{" "}
+                {tryNumber === 1
+                  ? "just one try! The average is A NUMBER HERE."
+                  : `\`${tryNumber}\` tries. The average is A NUMBER HERE.`}{" "}
+              </p>
+              <div className="flex mt-2">
+                {randomCode.map((CodePosition, index) => (
+                  <Circle key={index} size="large" color={CodePosition.color} />
+                ))}
+              </div>
+              <div className="flex mt-40">
+                <NewGameButton onClick={handleNewGameClick} />
+              </div>
+            </>
+          )}
+          {gameState === "lost" && (
+            <div>
+              <p>
+                You've reached the maximum number of tries. You've lost. The
+                answer code was:
+              </p>
+              <div className="flex">
+                {randomCode.map((CodePosition, index) => (
+                  <Circle key={index} size="large" color={CodePosition.color} />
+                ))}
+              </div>
+              <div className="flex mt-40">
+                <NewGameButton onClick={handleNewGameClick} />
+              </div>
             </div>
-          </div>
-        )}
-
-        {/* WHEN GAME OVER, THE ANSWER CODE SHOULD DISPLAY */}
-        {gameState === "lost" && (
-          <div>
-            <p>
-              You've reached the maximun number of tries. You've lost. The
-              answer code was:
-            </p>
-            <div className="flex">
-              {randomCode.map((CodePosition, index) => (
-                <Circle key={index} size="large" color={CodePosition.color} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
