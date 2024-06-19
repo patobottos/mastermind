@@ -58,9 +58,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const currentTry = state.tryNumber - 1; // Adjust for zero-indexed array
       const latestGuess = state.playerGuesses[currentTry]?.guess || [];
       const evaluation = evaluateGuess(latestGuess, state.randomCode);
-
-      const isCorrect = evaluation.every((color) => color === "black");
-
+      const isCorrect = evaluation.every((answer) => answer === "match");
       const newEvaluations = [...state.evaluations];
       newEvaluations[currentTry] = evaluation;
 
