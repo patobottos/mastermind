@@ -81,7 +81,7 @@ export default function Board() {
       )}
       {/* THIS IS THE FINAL SCREEN */}
       {gameState !== "playing" && (
-        <div className="absolute inset-0 flex flex-col justify-start items-center pt-12 px-5 text-slate-800 top-0 bg-teal-50 bg-opacity-90 border border-teal-700 rounded-md text-center left-0 right-0 mx-auto w-[346px] h-[520px]  backdrop-blur-sm shadow-2xl shadow-teal-500/40">
+        <div className="absolute inset-0 flex flex-col justify-start items-center pt-12 px-5 text-slate-800 top-0 bg-teal-50 bg-opacity-90 border border-teal-700 rounded-md text-center left-0 right-0 mx-auto w-[346px] h-[520px] backdrop-blur-sm shadow-2xl shadow-teal-500/40">
           {gameState === "won" && (
             <>
               <p className="text-pretty font-medium">
