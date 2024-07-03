@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGameStore } from "@/utilities/store";
 import Circle from "./Circle";
 import { initialColorValues } from "./ColorButton";
@@ -21,8 +21,11 @@ export default function Board() {
     evaluateGuess,
   } = useGameStore();
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
   useEffect(() => {
     initializeGame();
+    setIsInitialized(true);
   }, [initializeGame]);
 
   const handleColorChange = (color: string, position: number) => {
@@ -56,13 +59,14 @@ export default function Board() {
         </div>
       </div>
 
-      {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES*/}
+      {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
       <div className="flex flex-col justify-center mx-20">
         {playersChances.map((_, index) => (
           <div key={index} className="flex justify-center py-1 items-center">
             <div className="col-span-1 mr-1 sm:mr-4">
               <ColorButtonRow
-                guessingCode={initialColorValues}
+                key={`color-row-${index}-${tryNumber}`}
+                guessingCode={playerGuesses[index]?.guess || initialColorValues}
                 size="large"
                 onColorChange={(color, position) =>
                   handleColorChange(color, position)
@@ -88,7 +92,7 @@ export default function Board() {
                 Congratulations! You've won! It has taken you{" "}
                 {tryNumber === 1
                   ? "just one try! The average is A NUMBER HERE."
-                  : `\`${tryNumber}\` tries. The average is A NUMBER HERE.`}{" "}
+                  : `${tryNumber} tries. The average is A NUMBER HERE.`}
               </p>
               <div className="flex mt-2">
                 {randomCode.map((CodePosition, index) => (
@@ -101,7 +105,7 @@ export default function Board() {
             </div>
           )}
           {gameState === "lost" && (
-            <div>
+            <div className="flex flex-col items-center">
               <p>
                 You've reached the maximum number of tries. You've lost. The
                 answer code was:

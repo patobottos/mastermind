@@ -49,11 +49,11 @@ export default function ColorButton({
     large: "h-9 w-9",
   };
 
-  const [selectedColor, setSelectedColor] = useState(
-    backgroundColor || "transparent"
+  const [selectedColor, setSelectedColor] = useState<radioColorValues>(
+    backgroundColor || radioColorValues.transparent
   );
 
-  const handleColorChange = (color: string) => {
+  const handleColorChange = (color: radioColorValues) => {
     setSelectedColor(color);
     if (onColorChange) {
       onColorChange(color, position); // Call the onColorChange function with position
@@ -77,9 +77,9 @@ export default function ColorButton({
       {isOpen && (
         <div className="absolute z-10 top-10 left-1/2 transform -translate-x-1/2">
           <ColorPicker
-            colors={Object.keys(radioColorVariants)}
-            defaultColor={"transparent"}
-            onChange={handleColorChange}
+            colors={Object.keys(radioColorVariants) as radioColorValues[]}
+            defaultColor={radioColorValues.transparent}
+            onChange={(color) => handleColorChange(color as radioColorValues)}
           />
         </div>
       )}

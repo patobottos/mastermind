@@ -1,6 +1,9 @@
 import { create } from "zustand";
-import { PlayerGuess, AnswerCodeType } from "./randomCodeGenerator";
-import { getRandomColorCode } from "./randomCodeGenerator";
+import {
+  PlayerGuess,
+  AnswerCodeType,
+  getRandomColorCode,
+} from "./randomCodeGenerator";
 import { evaluateGuess } from "./evaluateGuess";
 
 type GameState = {
@@ -23,7 +26,17 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   initializeGame: () => {
     const generatedCode = getRandomColorCode();
+    console.log("Initializing game with new random code:", generatedCode);
     set({
+      tryNumber: 1,
+      gameState: "playing",
+      playerGuesses: [],
+      evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
+      randomCode: generatedCode,
+    });
+
+    // Log the state after setting it
+    console.log("State after initialization:", {
       tryNumber: 1,
       gameState: "playing",
       playerGuesses: [],
@@ -37,7 +50,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const currentTry = state.tryNumber - 1;
       const currentGuess =
         state.playerGuesses[currentTry]?.guess ||
-        Array(5).fill({ position: 0, color: "" });
+        Array(5).fill({ position: 0, color: "transparent" });
 
       const updatedGuess = [...currentGuess];
       updatedGuess[position - 1] = { position, color };
@@ -55,7 +68,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   evaluateGuess: () =>
     set((state) => {
-      const currentTry = state.tryNumber - 1; // Adjust for zero-indexed array
+      const currentTry = state.tryNumber - 1;
       const latestGuess = state.playerGuesses[currentTry]?.guess || [];
       const evaluation = evaluateGuess(latestGuess, state.randomCode);
       const isCorrect = evaluation.every((answer) => answer === "match");
