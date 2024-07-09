@@ -8,6 +8,8 @@ import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
+import Lottie from "lottie-react";
+import confetti from "@/app/assets/confetti.json";
 
 export default function Board() {
   const {
@@ -22,11 +24,20 @@ export default function Board() {
   } = useGameStore();
 
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isGuessComplete, setIsGuessComplete] = useState(false);
 
   useEffect(() => {
     initializeGame();
     setIsInitialized(true);
   }, [initializeGame]);
+
+  useEffect(() => {
+    const currentGuess =
+      playerGuesses[tryNumber - 1]?.guess || initialColorValues;
+    setIsGuessComplete(
+      currentGuess.every((color) => color.color !== "transparent")
+    );
+  }, [playerGuesses, tryNumber]);
 
   const handleColorChange = (color: string, position: number) => {
     makeGuess(position, color);
@@ -81,13 +92,27 @@ export default function Board() {
         ))}
       </div>
       {gameState === "playing" && (
-        <CheckButton onClick={handleCheckButtonClick} />
+        <CheckButton
+          onClick={handleCheckButtonClick}
+          disabled={!isGuessComplete}
+        />
       )}
       {/* THIS IS THE FINAL SCREEN */}
       {gameState !== "playing" && (
         <div className="absolute inset-0 flex flex-col justify-start items-center pt-12 px-5 text-slate-800 top-0 bg-teal-50 bg-opacity-90 border border-teal-700 rounded-md text-center left-0 right-0 mx-auto w-[346px] h-[520px] backdrop-blur-sm shadow-2xl shadow-teal-500/40">
+          {/* CONFETTI ANIMATION FOR THE WINNERS!*/}
           {gameState === "won" && (
             <div className="flex flex-col items-center">
+              <div className="absolute top-0 right-0 z-10 pointer-events-none">
+                <Lottie
+                  animationData={confetti}
+                  loop={true}
+                  autoplay={true}
+                  rendererSettings={{
+                    preserveAspectRatio: "xMidYMid slice",
+                  }}
+                />
+              </div>
               <p className="text-pretty font-medium">
                 Congratulations! You've won! It has taken you{" "}
                 {tryNumber === 1
