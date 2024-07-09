@@ -68,6 +68,11 @@ export default function Board() {
             <Circle key={index} size="large" color={CodePosition.color} />
           ))}
         </div>
+        {tryNumber <= 7 ? (
+          <p>You have {9 - tryNumber} tries left. </p>
+        ) : (
+          <p>You have 1 try left. Come on!</p>
+        )}
       </div>
 
       {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
@@ -130,16 +135,17 @@ export default function Board() {
             </div>
           )}
           {gameState === "lost" && (
-            <div className="flex flex-col items-center">
-              <p>
+            <div className="flex flex-col items-center ">
+              <p className="mx-1">
                 You've reached the maximum number of tries. You've lost. The
                 answer code was:
               </p>
-              <div className="flex">
+              <div className="flex mx-1">
                 {randomCode.map((CodePosition, index) => (
                   <Circle key={index} size="large" color={CodePosition.color} />
                 ))}
               </div>
+              <p className="mx-1">Let's start a new game.</p>
               <div className="flex mt-40">
                 <NewGameButton onClick={handleNewGameClick} />
               </div>
