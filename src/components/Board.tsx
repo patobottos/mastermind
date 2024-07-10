@@ -119,7 +119,7 @@ export default function Board() {
                 />
               </div>
               <p className="text-pretty font-medium">
-                Congratulations! You've won! It has taken you{" "}
+                Congratulations! You`&aposve won! It has taken you{" "}
                 {tryNumber === 1
                   ? "just one try! The average is A NUMBER HERE."
                   : `${tryNumber} tries. The average is A NUMBER HERE.`}
@@ -137,15 +137,15 @@ export default function Board() {
           {gameState === "lost" && (
             <div className="flex flex-col items-center ">
               <p className="mx-1">
-                You've reached the maximum number of tries. You've lost. The
-                answer code was:
+                You`&aposve reached the maximum number of tries. You`&aposve
+                lost. The answer code was:
               </p>
               <div className="flex mx-1">
                 {randomCode.map((CodePosition, index) => (
                   <Circle key={index} size="large" color={CodePosition.color} />
                 ))}
               </div>
-              <p className="mx-1">Let's start a new game.</p>
+              <p className="mx-1">Let`&aposs start a new game.</p>
               <div className="flex mt-40">
                 <NewGameButton onClick={handleNewGameClick} />
               </div>
