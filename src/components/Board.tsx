@@ -32,15 +32,32 @@ export default function Board() {
   }, [initializeGame]);
 
   useEffect(() => {
+    if (playerGuesses.length === 0) return;
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
-    setIsGuessComplete(
-      currentGuess.every((color) => color.color !== "transparent")
+    const complete = currentGuess.every(
+      (color) => color.color !== "transparent"
     );
+    setIsGuessComplete(complete);
+    console.log("Guess completeness updated:", complete);
   }, [playerGuesses, tryNumber]);
+
+  useEffect(() => {
+    // Reset isGuessComplete when tryNumber changes
+    setIsGuessComplete(false);
+    console.log("New try started, guess completeness reset");
+  }, [tryNumber]);
 
   const handleColorChange = (color: string, position: number) => {
     makeGuess(position, color);
+    const currentGuess =
+      playerGuesses[tryNumber - 1]?.guess || initialColorValues;
+    const newGuess = currentGuess.map((g, index) =>
+      index === position ? { ...g, color } : g
+    );
+    const complete = newGuess.every((color) => color.color !== "transparent");
+    setIsGuessComplete(complete);
+    console.log("Color changed, guess completeness updated:", complete);
   };
 
   const handleCheckButtonClick = () => {
@@ -55,6 +72,7 @@ export default function Board() {
 
   const handleNewGameClick = () => {
     initializeGame();
+    setIsGuessComplete(false); // Reset the guess completion state
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
