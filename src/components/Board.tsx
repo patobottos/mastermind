@@ -10,6 +10,7 @@ import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
 import Lottie from "lottie-react";
 import confetti from "@/app/assets/confetti.json";
+import FirebaseTest from "./FirebaseTest";
 
 export default function Board() {
   const {
@@ -25,10 +26,30 @@ export default function Board() {
 
   const [isInitialized, setIsInitialized] = useState(false);
   const [isGuessComplete, setIsGuessComplete] = useState(false);
+  const [gameStats, setGameStats] = useState({
+    totalGames: 0,
+    averageTries: 0,
+  });
 
   useEffect(() => {
     initializeGame();
     setIsInitialized(true);
+
+    const fetchGameStats = async () => {
+      try {
+        const response = await fetch("/api/gameStats");
+        if (!response.ok) throw new Error("Failed to fetch game statistics");
+        const stats = await response.json();
+        console.log(
+          `Total games: ${stats.totalGames}, Average tries: ${stats.averageTries}`
+        );
+        setGameStats(stats);
+      } catch (error) {
+        console.error("Error fetching game stats:", error);
+      }
+    };
+
+    fetchGameStats();
   }, [initializeGame]);
 
   useEffect(() => {
@@ -45,7 +66,6 @@ export default function Board() {
   useEffect(() => {
     // Reset isGuessComplete when tryNumber changes
     setIsGuessComplete(false);
-    console.log("New try started, guess completeness reset");
   }, [tryNumber]);
 
   const handleColorChange = (color: string, position: number) => {
@@ -57,10 +77,9 @@ export default function Board() {
     );
     const complete = newGuess.every((color) => color.color !== "transparent");
     setIsGuessComplete(complete);
-    console.log("Color changed, guess completeness updated:", complete);
   };
 
-  const handleCheckButtonClick = () => {
+  const handleCheckButtonClick = async () => {
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     if (currentGuess.some((color) => color.color === "transparent")) {
@@ -68,14 +87,51 @@ export default function Board() {
       return;
     }
     evaluateGuess();
+
+    // Store game data
+    try {
+      const response = await fetch("/api/storeGameData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tries: tryNumber,
+          success: gameState === "won",
+        }),
+      });
+      if (!response.ok) throw new Error("Failed to store game data");
+      const result = await response.json();
+      console.log(result.message);
+    } catch (error) {
+      console.error("Error storing game data:", error);
+    }
   };
 
-  const handleNewGameClick = () => {
+  const handleNewGameClick = async () => {
     initializeGame();
     setIsGuessComplete(false); // Reset the guess completion state
+
+    // Retrieve and display game statistics
+    try {
+      const response = await fetch("/api/gameStats");
+      if (!response.ok) throw new Error("Failed to fetch game statistics");
+      const stats = await response.json();
+      console.log(
+        `Total games: ${stats.totalGames}, Average tries: ${stats.averageTries}`
+      );
+      setGameStats(stats);
+    } catch (error) {
+      console.error("Error fetching game stats:", error);
+    }
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  // TEST CREATED FOR FIREBASE
+  const saveTryNumber = () => {
+    // Save tryNumber to Firebase
+    console.log("Saving tryNumber to Firebase:", tryNumber);
+    // Firebase.firestore().collection("game").add({ tryNumber });
+  };
 
   return (
     <div className="text-white flex flex-col items-center relative">
@@ -91,6 +147,11 @@ export default function Board() {
         ) : (
           <p>You have 1 try left. Come on!</p>
         )}
+      </div>
+
+      {/* TEXT WITH FIREBASE */}
+      <div>
+        <FirebaseTest showNumber={tryNumber} />
       </div>
 
       {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
@@ -137,10 +198,10 @@ export default function Board() {
                 />
               </div>
               <p className="text-pretty font-medium">
-                Congratulations! You`&aposve won! It has taken you{" "}
+                Congratulations! You've won! It has taken you{" "}
                 {tryNumber === 1
-                  ? "just one try! The average is A NUMBER HERE."
-                  : `${tryNumber} tries. The average is A NUMBER HERE.`}
+                  ? "just one try! The average is " + gameStats.averageTries
+                  : `${tryNumber} tries. The average is ${gameStats.averageTries}.`}
               </p>
               <div className="flex mt-2">
                 {randomCode.map((CodePosition, index) => (
@@ -155,7 +216,7 @@ export default function Board() {
           {gameState === "lost" && (
             <div className="flex flex-col items-center ">
               <p className="mx-1">
-                You`&aposve reached the maximum number of tries. You`&aposve
+                You've reached the maximum number of tries. You've
                 lost. The answer code was:
               </p>
               <div className="flex mx-1">
@@ -163,7 +224,7 @@ export default function Board() {
                   <Circle key={index} size="large" color={CodePosition.color} />
                 ))}
               </div>
-              <p className="mx-1">Let`&aposs start a new game.</p>
+              <p className="mx-1">Let's start a new game.</p>
               <div className="flex mt-40">
                 <NewGameButton onClick={handleNewGameClick} />
               </div>
