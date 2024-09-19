@@ -35,6 +35,7 @@ export default function Board() {
     initializeGame();
     setIsInitialized(true);
 
+    /* This function has to be rewritten
     const fetchGameStats = async () => {
       try {
         const response = await fetch("/api/gameStats");
@@ -50,6 +51,7 @@ export default function Board() {
     };
 
     fetchGameStats();
+    */
   }, [initializeGame]);
 
   useEffect(() => {
@@ -87,41 +89,12 @@ export default function Board() {
       return;
     }
     evaluateGuess();
-
-    // Store game data
-    try {
-      const response = await fetch("/api/storeGameData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tries: tryNumber,
-          success: gameState === "won",
-        }),
-      });
-      if (!response.ok) throw new Error("Failed to store game data");
-      const result = await response.json();
-      console.log(result.message);
-    } catch (error) {
-      console.error("Error storing game data:", error);
-    }
   };
 
   const handleNewGameClick = async () => {
     initializeGame();
     setIsGuessComplete(false); // Reset the guess completion state
 
-    // Retrieve and display game statistics
-    try {
-      const response = await fetch("/api/gameStats");
-      if (!response.ok) throw new Error("Failed to fetch game statistics");
-      const stats = await response.json();
-      console.log(
-        `Total games: ${stats.totalGames}, Average tries: ${stats.averageTries}`
-      );
-      setGameStats(stats);
-    } catch (error) {
-      console.error("Error fetching game stats:", error);
-    }
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -150,7 +123,8 @@ export default function Board() {
       </div>
 
       {/* TEXT WITH FIREBASE */}
-      <div>
+      <div className="text-bold text-orange-400 border rounded-xl p-2 border-opacity-25">
+        <p>FIREBASE TEST HERE</p>
         <FirebaseTest showNumber={tryNumber} />
       </div>
 
