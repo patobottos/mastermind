@@ -103,7 +103,7 @@ export default function Board() {
   const saveTryNumber = () => {
     // Save tryNumber to Firebase
     console.log("Saving tryNumber to Firebase:", tryNumber);
-    // Firebase.firestore().collection("game").add({ tryNumber });
+    // Firebase.firestore().collection("games").add({ tryNumber });
   };
 
   return (
