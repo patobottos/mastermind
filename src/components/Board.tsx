@@ -10,7 +10,9 @@ import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
 import Lottie from "lottie-react";
 import confetti from "@/app/assets/confetti.json";
-import FirebaseTest from "./FirebaseTest";
+//import FirebaseTest from "./FirebaseTest";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "@/utilities/firebaseConfig";
 
 export default function Board() {
   const {
@@ -28,32 +30,52 @@ export default function Board() {
   const [isGuessComplete, setIsGuessComplete] = useState(false);
   const [gameStats, setGameStats] = useState({
     totalGames: 0,
+    winPercentage: 0,
     averageTries: 0,
   });
 
+  // Fetch game statistics when the game starts
   useEffect(() => {
-    initializeGame();
-    setIsInitialized(true);
-
-    /* This function has to be rewritten
     const fetchGameStats = async () => {
       try {
-        const response = await fetch("/api/gameStats");
-        if (!response.ok) throw new Error("Failed to fetch game statistics");
-        const stats = await response.json();
+        const querySnapshot = await getDocs(collection(db, "games"));
+
+        let totalGames = 0;
+        let totalTries = 0;
+        let totalWins = 0;
+
+        querySnapshot.forEach((doc) => {
+          totalGames += 1;
+          const data = doc.data();
+          totalTries += data.tries || 0; // Sum the number of tries
+          if (data.state === "won") totalWins += 1; // Count wins
+        });
+
+        const winPercentage =
+          totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0;
+        const averageTries =
+          totalGames > 0 ? Math.round(totalTries / totalGames) : 0;
+
+        setGameStats({
+          totalGames,
+          winPercentage,
+          averageTries,
+        });
+
         console.log(
-          `Total games: ${stats.totalGames}, Average tries: ${stats.averageTries}`
+          `Total games: ${totalGames}, Wins: ${totalWins}, Win Percentage: ${winPercentage}%, Average Tries: ${averageTries}`
         );
-        setGameStats(stats);
       } catch (error) {
         console.error("Error fetching game stats:", error);
       }
     };
 
+    initializeGame();
+    setIsInitialized(true);
     fetchGameStats();
-    */
   }, [initializeGame]);
 
+  // Check if the guess is complete
   useEffect(() => {
     if (playerGuesses.length === 0) return;
     const currentGuess =
@@ -94,17 +116,33 @@ export default function Board() {
   const handleNewGameClick = async () => {
     initializeGame();
     setIsGuessComplete(false); // Reset the guess completion state
-
   };
 
   const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  // TEST CREATED FOR FIREBASE
-  const saveTryNumber = () => {
-    // Save tryNumber to Firebase
-    console.log("Saving tryNumber to Firebase:", tryNumber);
-    // Firebase.firestore().collection("games").add({ tryNumber });
+  // Save game result to Firebase when the game ends
+  const saveGameResult = async (won: boolean, tries: number) => {
+    try {
+      const gameData = {
+        date: new Date(),
+        tries: tries,
+        state: won ? "won" : "lost",
+      };
+
+      await addDoc(collection(db, "games"), gameData);
+      console.log("Game result saved successfully!");
+    } catch (error) {
+      console.error("Error saving game result:", error);
+    }
   };
+
+  // Save result when the game ends
+  useEffect(() => {
+    if (gameState === "won" || gameState === "lost") {
+      const won = gameState === "won";
+      saveGameResult(won, tryNumber);
+    }
+  }, [gameState]);
 
   return (
     <div className="text-white flex flex-col items-center relative">
@@ -124,8 +162,10 @@ export default function Board() {
 
       {/* TEXT WITH FIREBASE */}
       <div className="text-bold text-orange-400 border rounded-xl p-2 border-opacity-25">
-        <p>FIREBASE TEST HERE</p>
-        <FirebaseTest showNumber={tryNumber} />
+        <p>TESTING DATA AVAILABLE ON FIREBASE</p>
+      <p>Avarage number of tries: {gameStats.averageTries} </p>
+      <p>Total games: {gameStats.totalGames}</p>
+      <p>Win percentage: {gameStats.winPercentage}</p>
       </div>
 
       {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
@@ -190,8 +230,8 @@ export default function Board() {
           {gameState === "lost" && (
             <div className="flex flex-col items-center ">
               <p className="mx-1">
-                You've reached the maximum number of tries. You've
-                lost. The answer code was:
+                You've reached the maximum number of tries. You've lost. The
+                answer code was:
               </p>
               <div className="flex mx-1">
                 {randomCode.map((CodePosition, index) => (
