@@ -17,7 +17,7 @@ const RankingTopSection: React.FC<RankingTopSectionProps> = ({ totalGames, avera
         <h2 className="text-2xl font-semibold">
           Total Games Played
         </h2>
-        <span className="text-4xl font-bold text-sky-300">{totalGames}</span>
+        <span className="text-4xl font-bold text-orange-300">{totalGames}</span>
       </div>
 
       {/* AVERAGE TRIES WITH CIRCULAR PROGRESS*/}
