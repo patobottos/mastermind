@@ -160,14 +160,6 @@ export default function Board() {
         )}
       </div>
 
-      {/* TEXT WITH FIREBASE */}
-      <div className="text-bold text-orange-400 border rounded-xl p-2 border-opacity-25">
-        <p>TESTING DATA AVAILABLE ON FIREBASE</p>
-      <p>Avarage number of tries: {gameStats.averageTries} </p>
-      <p>Total games: {gameStats.totalGames}</p>
-      <p>Win percentage: {gameStats.winPercentage}</p>
-      </div>
-
       {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
       <div className="flex flex-col justify-center mx-20">
         {playersChances.map((_, index) => (

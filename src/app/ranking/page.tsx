@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../utilities/firebaseConfig";
 import RankingTopSection from "./RankingTopSection";
-import WinPercentageChart from "../../components/WinPercentageChart";
+import WinPercentageChart from "./WinPercentageChart";
 import TryDistributionChart from "./TryDistributionChart";
 import FastestWin from "./FastestWin";
 
@@ -64,7 +64,7 @@ const RankingPage = () => {
   return (
     <div className="p-6 space-y-12">
       {/* Top Section */}
-      <RankingTopSection totalGames={totalGames} averageTries={averageTries} />
+      <RankingTopSection totalGames={totalGames} averageTries={averageTries} fastestWin={fastestWin} />
 
       {/* Middle Section - Win Percentage */}
       <WinPercentageChart
@@ -75,7 +75,6 @@ const RankingPage = () => {
       {/* Bottom Section - Try Distribution & Fastest Win */}
       <div className="grid grid-cols-1 gap-6">
         <TryDistributionChart tryDistribution={tryDistribution} />
-        <FastestWin fastestWin={fastestWin} />
       </div>
     </div>
   );
