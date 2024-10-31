@@ -70,7 +70,7 @@ const Rules = () => {
             <strong>Turns:</strong>
             <ul className="list-disc list-inside ml-6">
               <li>
-                You have 8 turns to guess the exact code. With each guess and
+                You have 8 tries to guess the exact code. With each guess and
                 the clues provided, try to narrow down the color combination.
               </li>
             </ul>
@@ -80,7 +80,7 @@ const Rules = () => {
             <ul className="list-disc list-inside ml-6">
               <li>
                 You win if you guess the code with all colors in the correct
-                order within the 8 turns. If you can’t, the computer wins!
+                order within the 8 tries. If you can’t, the computer wins!
               </li>
             </ul>
           </li>
