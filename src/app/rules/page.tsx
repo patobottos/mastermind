@@ -19,6 +19,9 @@ const Rules = () => {
             guess a hidden color code set by the computer.
           </li>
           <li>
+            <strong>Recommended Age:</strong> 7 and up.
+          </li>
+          <li>
             <strong>Setup:</strong>
             <ul className="list-disc list-inside ml-6">
               <li>
@@ -100,19 +103,19 @@ const Rules = () => {
             Mastermind has its roots in an old paper-and-pencil game known as
             “Bulls and Cows,” popular in England and Italy under names like
             “Numerello.” In 1970, Israeli postmaster and telecommunications
-            expert <strong>Mordecai Meirowitz</strong> adapted this game to create the Mastermind
-            we know today. After many toy companies rejected the idea, a small
-            British company, Invicta Plastics Ltd., saw its potential and first
-            produced it with colored pegs on a board. Later, Hasbro began
-            distributing the game around the world.
+            expert <strong>Mordecai Meirowitz</strong> adapted this game to
+            create the Mastermind we know today. After many toy companies
+            rejected the idea, a small British company, Invicta Plastics Ltd.,
+            saw its potential and first produced it with colored pegs on a
+            board. Later, Hasbro began distributing the game around the world.
           </p>
           <p>
             Since its release, Mastermind has become a classic. Known for its
             unique mix of strategy and deduction, it has captivated over 50
             million players worldwide. The game even drew the interest of
-            mathematicians, like <strong>Donald Knuth</strong>, who in 1977 proved that any
-            Mastermind code could be cracked in five moves or fewer using a
-            mathematical approach.
+            mathematicians, like <strong>Donald Knuth</strong>, who in 1977
+            proved that any Mastermind code could be cracked in five moves or
+            fewer using a mathematical approach.
           </p>
           <p>
             Mastermind continues to challenge players of all ages, making it a
