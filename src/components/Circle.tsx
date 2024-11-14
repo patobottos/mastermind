@@ -20,7 +20,7 @@ export default function Circle({ size, color }: CircleProps) {
     skyblue: "bg-skyblue",
     rosy: "bg-rosy",
     miss: "bg-transparent",
-    present: "bg-white",
+    present: "bg-slate-300",
     match: "bg-black",
   };
 

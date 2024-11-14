@@ -37,19 +37,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
+    <html lang="en" className="scroll-smooth light dark" suppressHydrationWarning>
       <head />
-      <body className={`${roboto.variable} ${libre.variable} font-sans`}>
+      <body
+        className={`${roboto.variable} ${libre.variable} font-lightTheme dark:font-darkTheme bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text`}
+      >
         <ThemeClient>
-          <Navbar />
-          {children}
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-grow flex justify-center pt-6">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ThemeClient>
       </body>
     </html>
   );
 }
+

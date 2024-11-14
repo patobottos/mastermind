@@ -48,6 +48,10 @@ const config: Config = {
         rosy: "#FF69B4",
         gold: "#FFD700",
       },
+      fontFamily: {
+        lightTheme: ["Poppins", "sans-serif"], // Font for light mode
+        darkTheme: ["Lato", "sans-serif"], // Font for dark mode
+      },
     },
   },
   plugins: [],

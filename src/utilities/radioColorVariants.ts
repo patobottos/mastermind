@@ -15,6 +15,6 @@ export const radioColorVariants: { [key: string]: string } = {
 
 export const answerColorVariants: { [key: string]: string } = {
   match: "bg-black",
-  present: "bg-white",
+  present: "bg-slate-200",
   miss: "bg-transparent",
 };

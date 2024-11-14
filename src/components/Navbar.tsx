@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
@@ -30,6 +32,8 @@ const NAV_ITEMS: Array<NavItem> = [
 ];
 
 function Navbar() {
+  const { theme } = useTheme();
+
   return (
     <header className="w-full mx-auto border-b p-4 flex items-center">
       <div className="flex justify-between items-end mx-auto w-[80vw] relative">
@@ -37,11 +41,19 @@ function Navbar() {
         <div>
           <Link href="/">
             <picture>
-              <img
-                className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                src="./mastermind_iso_darkmode.png"
-                alt="Mastermind logo"
-              />
+              {theme === "dark" ? (
+                <img
+                  className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
+                  src="./mastermind_iso_darkmode.png"
+                  alt="Mastermind logo for dark mode"
+                />
+              ) : (
+                <img
+                  className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
+                  src="./mastermind_iso_lightmode.png"
+                  alt="Mastermind logo for light mode"
+                />
+              )}
             </picture>
           </Link>
         </div>

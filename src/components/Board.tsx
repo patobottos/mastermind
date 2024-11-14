@@ -145,14 +145,17 @@ export default function Board() {
   }, [gameState]);
 
   return (
-    <div className="text-white flex flex-col items-center relative">
-      <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center relative text-light-text dark:text-dark-text">
+      <div className="flex flex-col items-center justify-center mb-2">
+        {/* ONLY FOR TESTING PURPOSES
         <p>Random Generated Code:</p>
         <div className="flex">
           {randomCode.map((CodePosition, index) => (
             <Circle key={index} size="large" color={CodePosition.color} />
           ))}
         </div>
+        */
+        }
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
