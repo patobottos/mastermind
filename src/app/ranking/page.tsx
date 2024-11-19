@@ -63,7 +63,7 @@ const RankingPage = () => {
 
   return (
     <div className="p-6 space-y-12">
-      {/* Top Section */}
+      {/* Top Section - Total Games & Average Tries & Fastest Win */}
       <RankingTopSection totalGames={totalGames} averageTries={averageTries} fastestWin={fastestWin} />
 
       {/* Middle Section - Win Percentage */}
@@ -72,12 +72,15 @@ const RankingPage = () => {
         losePercentage={losePercentage}
       />
 
-      {/* Bottom Section - Try Distribution & Fastest Win */}
-      <div className="grid grid-cols-1 gap-6">
-        <TryDistributionChart tryDistribution={tryDistribution} />
+      {/* Bottom Section - Try Distribution */}
+      <div className="flex justify-center">
+        <div className="max-w-screen-lg">
+          <TryDistributionChart tryDistribution={tryDistribution} />
+        </div>
       </div>
     </div>
   );
 };
 
 export default RankingPage;
+
