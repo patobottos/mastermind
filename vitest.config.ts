@@ -12,6 +12,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true, // Ensure that Vitest globals (like expect) are available in tests
-    setupFiles: "./src/__tests__/setupTests.ts",
+    setupFiles: ["./src/__tests__/setupTests.ts"],
+    mockReset: true,
   },
 });

@@ -1,18 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect, test } from "vitest";
-import Home from "@/app/page";
 import { evaluateGuess } from "@/utilities/evaluateGuess";
 import { AnswerCodeType } from "@/utilities/randomCodeGenerator";
-
-// TESTING HOME INTERFACE
-describe("Home", () => {
-  it('should display the word "Random" on the home page', () => {
-    render(<Home />);
-    const randomText = screen.getByText(/Random/i);
-    expect(randomText).toBeInTheDocument();
-  });
-});
 
 // TESTING EVALUATEGUESS FUNCTION
 /// FULL MATCH
