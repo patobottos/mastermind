@@ -8,10 +8,13 @@ import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
-import LazyLottie from "./LazyLottie";
+// import Lottie from "lottie-react";
+// import confetti from "@/app/assets/confetti.json";
+import Confetti from "./Confetti";
+
+//import FirebaseTest from "./FirebaseTest";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "@/utilities/firebaseConfig";
-import confetti from "@/app/assets/confetti.json";
 
 export default function Board() {
   const {
@@ -146,6 +149,15 @@ export default function Board() {
   return (
     <div className="flex flex-col items-center relative text-light-text dark:text-dark-text">
       <div className="flex flex-col items-center justify-center mb-2">
+        {/* ONLY FOR TESTING PURPOSES
+        <p>Random Generated Code:</p>
+        <div className="flex">
+          {randomCode.map((CodePosition, index) => (
+            <Circle key={index} size="large" color={CodePosition.color} />
+          ))}
+        </div>
+        */
+        }
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
@@ -187,7 +199,7 @@ export default function Board() {
           {gameState === "won" && (
             <div className="flex flex-col items-center">
               <div className="absolute top-0 right-0 z-10 pointer-events-none">
-                <LazyLottie src={confetti} />
+               <Confetti/>
               </div>
               <p className="text-pretty font-medium">
                 Congratulations! You've won! It has taken you{" "}
