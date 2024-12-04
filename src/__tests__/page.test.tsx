@@ -247,6 +247,36 @@ test("evaluateGuess function should handle duplicates in both guess and answer",
   expect(evaluation).toEqual(expectedEvaluation);
 });
 
+/// SAME COLOR IN GUESS OR ANSWER, BUT ONLY PARTIALLY MATCHED
+test("evaluateGuess handles duplicates correctly", () => {
+  const latestGuess: AnswerCodeType = [
+    { position: 1, color: "crimson" },
+    { position: 2, color: "crimson" },
+    { position: 3, color: "velvet" },
+    { position: 4, color: "sunrise" },
+    { position: 5, color: "azure" },
+  ];
+
+  const randomCode: AnswerCodeType = [
+    { position: 1, color: "crimson" },
+    { position: 2, color: "velvet" },
+    { position: 3, color: "sunrise" },
+    { position: 4, color: "azure" },
+    { position: 5, color: "crimson" },
+  ];
+
+  const expectedEvaluation: string[] = [
+    "match",
+    "present",
+    "present",
+    "present",
+    "present",
+  ];
+
+  const evaluation = evaluateGuess(latestGuess, randomCode);
+  expect(evaluation).toEqual(expectedEvaluation);
+});
+
 /// ALL MATCHES WITH ONE COLOR
 test("evaluateGuess function should handle all matches with one color", () => {
   const latestGuess: AnswerCodeType = [

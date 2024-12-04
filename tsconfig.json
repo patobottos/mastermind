@@ -12,13 +12,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": ["vitest", "@testing-library/jest-dom"],
     "paths": {
       "@/*": ["./src/*"]
     },
     "plugins": [
       {
         "name": "next"
-      }
+      },
     ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
