@@ -34,7 +34,7 @@ function Footer() {
 
       {/* Location and Date */}
       <span className="mx-2 xxs:mx-1 xs:mx-1 text-gray-700 dark:text-gray-50 cursor-pointer">
-        Barcelona, 2024
+        Barcelona, 2025
       </span>
     </div>
   );

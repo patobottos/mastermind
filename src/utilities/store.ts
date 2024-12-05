@@ -9,9 +9,10 @@ import { evaluateGuess } from "./evaluateGuess";
 type GameState = {
   tryNumber: number;
   gameState: "playing" | "won" | "lost";
-  playerGuesses: PlayerGuess[];
-  evaluations: string[][];
-  randomCode: AnswerCodeType;
+  playerGuesses: PlayerGuess[]; // Array of player guesses
+  evaluations: string[][]; // Feedback for each guess
+  randomCode: AnswerCodeType; // Target code to guess
+  isCorrect: boolean; // Derived state: true if the player guessed correctly
   initializeGame: () => void;
   makeGuess: (position: number, color: string) => void;
   evaluateGuess: () => void;
@@ -23,25 +24,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   playerGuesses: [],
   evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
   randomCode: [],
+  isCorrect: false, // Initialize derived state
 
   initializeGame: () => {
     const generatedCode = getRandomColorCode();
-    console.log("Initializing game with new random code:", generatedCode);
     set({
       tryNumber: 1,
       gameState: "playing",
       playerGuesses: [],
       evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
       randomCode: generatedCode,
-    });
-
-    // Log the state after setting it
-    console.log("State after initialization:", {
-      tryNumber: 1,
-      gameState: "playing",
-      playerGuesses: [],
-      evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
-      randomCode: generatedCode,
+      isCorrect: false, // Reset derived state
     });
   },
 
@@ -71,6 +64,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const currentTry = state.tryNumber - 1;
       const latestGuess = state.playerGuesses[currentTry]?.guess || [];
       const evaluation = evaluateGuess(latestGuess, state.randomCode);
+
       const isCorrect = evaluation.every((answer) => answer === "match");
       const newEvaluations = [...state.evaluations];
       newEvaluations[currentTry] = evaluation;
@@ -79,6 +73,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         evaluations: newEvaluations,
         tryNumber: isCorrect ? state.tryNumber : state.tryNumber + 1,
         gameState: isCorrect ? "won" : state.tryNumber < 8 ? "playing" : "lost",
+        isCorrect, // Store derived state
       };
     }),
 }));
