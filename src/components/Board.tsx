@@ -8,13 +8,10 @@ import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
-// import Lottie from "lottie-react";
-// import confetti from "@/app/assets/confetti.json";
 import Confetti from "./Confetti";
-
-//import FirebaseTest from "./FirebaseTest";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "@/utilities/firebaseConfig";
+import ErrorMessage from "./ErrorMessage";
 
 export default function Board() {
   const {
@@ -26,6 +23,7 @@ export default function Board() {
     initializeGame,
     makeGuess,
     evaluateGuess,
+    setError,
   } = useGameStore();
 
   const [isInitialized, setIsInitialized] = useState(false);
@@ -69,6 +67,7 @@ export default function Board() {
         );
       } catch (error) {
         console.error("Error fetching game stats:", error);
+        setError("Failed to fetch game statistics. Please try again.");
       }
     };
 
@@ -109,11 +108,12 @@ export default function Board() {
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     if (currentGuess.some((color) => color.color === "transparent")) {
-      alert("Please, pick a color for each circle and try again.");
+      setError("Please, pick a color for each circle and try again.");
       return;
     }
     evaluateGuess();
   };
+  
 
   const handleNewGameClick = async () => {
     initializeGame();
@@ -135,6 +135,7 @@ export default function Board() {
       console.log("Game result saved successfully!");
     } catch (error) {
       console.error("Error saving game result:", error);
+      setError("Failed to save game result. Please check your connection.");
     }
   };
 
@@ -148,6 +149,7 @@ export default function Board() {
 
   return (
     <div className="flex flex-col items-center relative text-light-text dark:text-dark-text">
+      <ErrorMessage />
       <div className="flex flex-col items-center justify-center mb-2">
         {/* ONLY FOR TESTING PURPOSES
         <p>Random Generated Code:</p>

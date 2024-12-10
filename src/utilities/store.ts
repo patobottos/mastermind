@@ -16,6 +16,9 @@ type GameState = {
   initializeGame: () => void;
   makeGuess: (position: number, color: string) => void;
   evaluateGuess: () => void;
+  errorMessage: string | null; // Property for error message
+  setError: (message: string) => void; // Method to set an error
+  clearError: () => void; // Method to clear an error
 };
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -25,6 +28,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   evaluations: Array.from({ length: 8 }, () => Array(5).fill("")),
   randomCode: [],
   isCorrect: false, // Initialize derived state
+  errorMessage: null, // Initial state
+  setError: (message: string) => set({ errorMessage: message }),
+  clearError: () => set({ errorMessage: null }),
 
   initializeGame: () => {
     const generatedCode = getRandomColorCode();
