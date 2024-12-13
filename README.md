@@ -1,83 +1,79 @@
-# Mastermind Game App
+# Mastermind: Crack the Code!
 
-A modern and interactive take on the classic code-breaking game, Mastermind! Challenge yourself by guessing the secret code within a set number of turns while honing your logical reasoning skills.
+A modern and interactive take on the classic code-breaking game, Mastermind! Challenge yourself (and your friends!) to guess the computer's secret code within 8 turns and sharpen your logical reasoning skills.
 
-## Features
+![Mastermind Gameplay](public/mastermind_play.gif)
 
-- **Classic Gameplay**: Experience the timeless Mastermind game with a sleek, responsive interface.
-- **Intuitive UI**: Designed for seamless user interaction on both desktop and mobile.
-- **Customizable Settings**: Adjust game parameters (e.g., code length, number of attempts) to suit your skill level.
-- **Score Tracking**: Keep tabs on your progress and challenge yourself to improve!
+## Table of Contents
 
-## Screenshots
+- [Usage](#usage)
+- [Features You'll Love](#features-youll-love)
+- [How to Play](#how-to-play)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Credits](#credits)
+- [Contact Information](#contact-information)
+- [Acknowledgments](#acknowledgments)
 
-_Add captivating screenshots or gifs of your app here to showcase its design and gameplay._
+## Usage
 
-## Getting Started
+To play the game online, visit [mastermind-patobottos.vercel.app](https://mastermind-patobottos.vercel.app/) in your web browser. No installation is required—start playing instantly!
 
-Follow these steps to set up and run the project locally.
+## Features You'll Love ✨
 
-### Prerequisites
-- Node.js (v16 or later recommended)
-- npm, yarn, pnpm, or bun (package manager of your choice)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/patobottos/mastermind.git
-   cd mastermind
-   
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   # or
-   bun install
-   ```
-
-3. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-4. Open your browser and navigate to http://localhost:3000 to view the app.
+- **Classic Gameplay, Modern Feel**: Enjoy the timeless Mastermind game with an elegant, responsive design.
+- **Intuitive UI**: Effortlessly navigate the interface, whether on desktop or mobile.
+- **Global Stats**: View global game statistics, track your progress, and aim to beat your personal best!
 
 ## How to Play
 
-1. Guess the secret code by entering your attempt.
-2. After each guess, receive feedback:
-   - A marker indicating correct colors in the correct positions.
-   - A marker indicating correct colors in incorrect positions.
-3. Use the feedback to refine your guesses and crack the code before you run out of turns!
+1. Enter your guess for the secret code.
+2. After each attempt, receive feedback:
+   - **Black Peg**: Correct color in the correct position. ⚫️
+   - **White Peg**: Correct color but in the wrong position. ⚪️
+   - **No Peg**: The color isn’t in the code at all.
+3. Use the feedback to refine your guesses and crack the code within 8 turns!
 
 ## Technologies Used
 
-- **Next.js**: Framework for React applications with server-side rendering and static site generation.
-- **TypeScript**: For type safety and better developer experience.
-- **CSS Modules**: Scoped styling for a clean and maintainable codebase.
+- **Next.js**: For a modern and efficient React-based web application with server-side rendering.
+- **TypeScript**: Adds type safety and enhances the developer experience.
+- **Tailwind CSS**: A utility-first CSS framework for rapid and customizable UI development.
 
 ## Contributing
 
-Contributions are welcome! Follow these steps to contribute:
+Contributions are always welcome! Here's how you can help:
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m 'Add feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a pull request.
+1. Fork the repository and create a new branch (`git checkout -b your-feature`).
+2. Make your changes and commit them (`git commit -m "Add your feature"`).
+3. Push to your branch (`git push origin your-feature`).
+4. Open a pull request.
 
-Please ensure your code adheres to the project's coding standards and is well-documented.
+Alternatively, feel free to contact me at **patobottos[at]gmail.com** with your ideas or feedback. I appreciate your support!
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Credits
+
+- **Developer**: [Pato Bottos](https://patobottos.vercel.app/) 🙋🏽‍♂️
+- **Inspiration**: [Mastermind Game by Cayro](https://cayro.es/en/) and [Mastermind Game App by Mastermindgame.org](https://mastermindgame.org/)
+- **Assistance**: [ChatGPT](https://chatgpt.com/)
+- **Development Place and Time**: Barcelona, January 2025
+
+## Contact Information
+
+- **Pato Bottos**  
+  Email: patobottos[at]gmail.com  
+
+## Acknowledgments
+
+A heartfelt thank you to everyone who contributed to making this project possible:
+
+- **[Casal de Barri Antoni Miró Peris](https://casalbarrieamp.org/):** For lending me the physical [Mastermind game](https://cayro.es/producto/master-mind-colores/) during the winter holidays! ✨
+- **[Lottie Files](https://lottiefiles.com/):** For their stunning animations! 🎉
+- **My Family:** For their unwavering support and encouragement. ❤️
+
+Enjoy playing Mastermind!

@@ -23,7 +23,7 @@ function Footer() {
         <a
           target="_blank"
           rel="noreferrer"
-          href=""
+          href="https://shop.hasbro.com/en-us"
           className="decoration-inherit text-blue-600 dark:text-blue-100 cursor-pointer"
         >
           Hapsbro Game
