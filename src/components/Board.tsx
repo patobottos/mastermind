@@ -113,7 +113,6 @@ export default function Board() {
     }
     evaluateGuess();
   };
-  
 
   const handleNewGameClick = async () => {
     initializeGame();
@@ -158,8 +157,7 @@ export default function Board() {
             <Circle key={index} size="large" color={CodePosition.color} />
           ))}
         </div>
-        */
-        }
+        */}
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
@@ -201,7 +199,7 @@ export default function Board() {
           {gameState === "won" && (
             <div className="flex flex-col items-center">
               <div className="absolute top-0 right-0 z-10 pointer-events-none">
-               <Confetti/>
+                <Confetti />
               </div>
               <p className="text-pretty font-medium">
                 Congratulations! You've won! It has taken you{" "}
