@@ -94,7 +94,7 @@ export default function Board() {
       (color) => color.color !== "transparent"
     );
     setIsGuessComplete(complete);
-  }, [playerGuesses, tryNumber]);
+  }, [playerGuesses, tryNumber, setError]);
 
   /**
    * Save game result to Firebase when the game ends

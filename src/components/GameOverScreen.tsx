@@ -39,7 +39,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
             <Confetti />
           </div>
           <p className="text-pretty font-medium">
-            Congratulations! You've won! It has taken you{" "}
+            Congratulations! You&apos;ve won! It has taken you{" "}
             {tryNumber === 1
               ? `just one try! The average is ${gameStats.averageTries}`
               : `${tryNumber} tries. The average is ${gameStats.averageTries}.`}
@@ -66,7 +66,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
       {gameState === "lost" && (
         <div className="flex flex-col items-center">
           <p className="mx-1">
-            You've reached the maximum number of tries. You've lost. The answer
+            You&apos;ve reached the maximum number of tries. You&apos;ve lost. The answer
             code was:
           </p>
           <div className="flex mx-1">
@@ -78,7 +78,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
               />
             ))}
           </div>
-          <p className="mx-1">Let's start a new game.</p>
+          <p className="mx-1">Let&apos;s start a new game.</p>
           <div className="flex mt-40">
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
