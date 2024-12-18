@@ -8,10 +8,20 @@ import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
-import Confetti from "./Confetti";
+import dynamic from "next/dynamic";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "@/utilities/firebaseConfig";
 import ErrorMessage from "./ErrorMessage";
+import GameOverScreen from "./GameOverScreen";
+
+// Dynamically import Confetti with SSR disabled to fix the "document is not defined" error
+const Confetti = dynamic(() => import("./Confetti"), { ssr: false });
+
+type GameStats = {
+  totalGames: number;
+  winPercentage: number;
+  averageTries: number;
+};
 
 export default function Board() {
   const {
@@ -28,13 +38,17 @@ export default function Board() {
 
   const [isInitialized, setIsInitialized] = useState(false);
   const [isGuessComplete, setIsGuessComplete] = useState(false);
-  const [gameStats, setGameStats] = useState({
+  const [gameStats, setGameStats] = useState<GameStats>({
     totalGames: 0,
     winPercentage: 0,
     averageTries: 0,
   });
 
-  // Fetch game statistics when the game starts
+  const playersChances = Array.from({ length: 8 }, (_, i) => i + 1);
+
+  /**
+   * Fetch game statistics when the game starts
+   */
   useEffect(() => {
     const fetchGameStats = async () => {
       try {
@@ -47,8 +61,8 @@ export default function Board() {
         querySnapshot.forEach((doc) => {
           totalGames += 1;
           const data = doc.data();
-          totalTries += data.tries || 0; // Sum the number of tries
-          if (data.state === "won") totalWins += 1; // Count wins
+          totalTries += data.tries || 0;
+          if (data.state === "won") totalWins += 1;
         });
 
         const winPercentage =
@@ -56,43 +70,60 @@ export default function Board() {
         const averageTries =
           totalGames > 0 ? Math.round(totalTries / totalGames) : 0;
 
-        setGameStats({
-          totalGames,
-          winPercentage,
-          averageTries,
-        });
-
-        console.log(
-          `Total games: ${totalGames}, Wins: ${totalWins}, Win Percentage: ${winPercentage}%, Average Tries: ${averageTries}`
-        );
+        setGameStats({ totalGames, winPercentage, averageTries });
       } catch (error) {
         console.error("Error fetching game stats:", error);
         setError("Failed to fetch game statistics. Please try again.");
       }
     };
 
-    initializeGame();
-    setIsInitialized(true);
-    fetchGameStats();
-  }, [initializeGame]);
+    if (!isInitialized) {
+      initializeGame();
+      setIsInitialized(true);
+      fetchGameStats();
+    }
+  }, [initializeGame, isInitialized]);
 
-  // Check if the guess is complete
+  /**
+   * Check if the current guess is complete
+   */
   useEffect(() => {
-    if (playerGuesses.length === 0) return;
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     const complete = currentGuess.every(
       (color) => color.color !== "transparent"
     );
     setIsGuessComplete(complete);
-    console.log("Guess completeness updated:", complete);
   }, [playerGuesses, tryNumber]);
 
+  /**
+   * Save game result to Firebase when the game ends
+   */
   useEffect(() => {
-    // Reset isGuessComplete when tryNumber changes
-    setIsGuessComplete(false);
-  }, [tryNumber]);
+    const saveGameResult = async () => {
+      try {
+        const gameData = {
+          date: new Date(),
+          tries: tryNumber,
+          state: gameState === "won" ? "won" : "lost",
+        };
 
+        await addDoc(collection(db, "games"), gameData);
+        console.log("Game result saved successfully!");
+      } catch (error) {
+        console.error("Error saving game result:", error);
+        setError("Failed to save game result. Please check your connection.");
+      }
+    };
+
+    if (gameState === "won" || gameState === "lost") {
+      saveGameResult();
+    }
+  }, [gameState, tryNumber, setError]);
+
+  /**
+   * Handle color change in the current guess row
+   */
   const handleColorChange = (color: string, position: number) => {
     makeGuess(position, color);
     const currentGuess =
@@ -104,7 +135,10 @@ export default function Board() {
     setIsGuessComplete(complete);
   };
 
-  const handleCheckButtonClick = async () => {
+  /**
+   * Handle the "Check" button click
+   */
+  const handleCheckButtonClick = () => {
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     if (currentGuess.some((color) => color.color === "transparent")) {
@@ -114,50 +148,18 @@ export default function Board() {
     evaluateGuess();
   };
 
-  const handleNewGameClick = async () => {
+  /**
+   * Start a new game
+   */
+  const handleNewGameClick = () => {
     initializeGame();
-    setIsGuessComplete(false); // Reset the guess completion state
+    setIsGuessComplete(false);
   };
-
-  const playersChances = [1, 2, 3, 4, 5, 6, 7, 8];
-
-  // Save game result to Firebase when the game ends
-  const saveGameResult = async (won: boolean, tries: number) => {
-    try {
-      const gameData = {
-        date: new Date(),
-        tries: tries,
-        state: won ? "won" : "lost",
-      };
-
-      await addDoc(collection(db, "games"), gameData);
-      console.log("Game result saved successfully!");
-    } catch (error) {
-      console.error("Error saving game result:", error);
-      setError("Failed to save game result. Please check your connection.");
-    }
-  };
-
-  // Save result when the game ends
-  useEffect(() => {
-    if (gameState === "won" || gameState === "lost") {
-      const won = gameState === "won";
-      saveGameResult(won, tryNumber);
-    }
-  }, [gameState]);
 
   return (
     <div className="flex flex-col items-center relative text-light-text dark:text-dark-text">
       <ErrorMessage />
       <div className="flex flex-col items-center justify-center mb-2">
-        {/* ONLY FOR TESTING PURPOSES
-        <p>Random Generated Code:</p>
-        <div className="flex">
-          {randomCode.map((CodePosition, index) => (
-            <Circle key={index} size="large" color={CodePosition.color} />
-          ))}
-        </div>
-        */}
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
@@ -186,55 +188,25 @@ export default function Board() {
           </div>
         ))}
       </div>
+
+      {/* CHECK BUTTON */}
       {gameState === "playing" && (
         <CheckButton
           onClick={handleCheckButtonClick}
           disabled={!isGuessComplete}
         />
       )}
-      {/* THIS IS THE FINAL SCREEN */}
+
+      {/* FINAL SCREEN */}
       {gameState !== "playing" && (
-        <div className="absolute inset-0 flex flex-col justify-start items-center pt-12 px-5 text-slate-800 top-0 bg-teal-50 bg-opacity-90 border border-teal-700 rounded-md text-center left-0 right-0 mx-auto w-[346px] h-[520px] backdrop-blur-sm shadow-2xl shadow-teal-500/40">
-          {/* CONFETTI ANIMATION FOR THE WINNERS!*/}
-          {gameState === "won" && (
-            <div className="flex flex-col items-center">
-              <div className="absolute top-0 right-0 z-10 pointer-events-none">
-                <Confetti />
-              </div>
-              <p className="text-pretty font-medium">
-                Congratulations! You've won! It has taken you{" "}
-                {tryNumber === 1
-                  ? "just one try! The average is " + gameStats.averageTries
-                  : `${tryNumber} tries. The average is ${gameStats.averageTries}.`}
-              </p>
-              <div className="flex mt-2">
-                {randomCode.map((CodePosition, index) => (
-                  <Circle key={index} size="large" color={CodePosition.color} />
-                ))}
-              </div>
-              <div className="flex mt-40">
-                <NewGameButton onClick={handleNewGameClick} />
-              </div>
-            </div>
-          )}
-          {gameState === "lost" && (
-            <div className="flex flex-col items-center ">
-              <p className="mx-1">
-                You've reached the maximum number of tries. You've lost. The
-                answer code was:
-              </p>
-              <div className="flex mx-1">
-                {randomCode.map((CodePosition, index) => (
-                  <Circle key={index} size="large" color={CodePosition.color} />
-                ))}
-              </div>
-              <p className="mx-1">Let's start a new game.</p>
-              <div className="flex mt-40">
-                <NewGameButton onClick={handleNewGameClick} />
-              </div>
-            </div>
-          )}
-        </div>
+        <GameOverScreen
+          gameState={gameState}
+          tryNumber={tryNumber}
+          gameStats={gameStats}
+          randomCode={randomCode}
+          handleNewGameClick={handleNewGameClick}
+          Confetti={Confetti}
+        />
       )}
     </div>
   );
