@@ -38,7 +38,7 @@ const TryDistributionChart: React.FC<TryDistributionChartProps> = ({
   const { backgroundColor, borderColor } = isDarkMode ? darkModeColors : lightModeColors;
 
   const data = {
-    labels: ["1 Try", "2 Tries", "3 Tries", "4 Tries", "5 Tries", "6 Tries"],
+    labels: ["1 Try", "2 Tries", "3 Tries", "4 Tries", "5 Tries", "6 Tries", "7 Tries", "8 Tries"],
     datasets: [
       {
         label: "Number of Games",

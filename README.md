@@ -1,6 +1,10 @@
 # Mastermind: Crack the Code!
 
+<<<<<<< HEAD
 A modern and interactive take on the classic code-breaking game, Mastermind! Challenge yourself (and your friends!) to guess the computer's secret code within 8 turns and sharpen your logical reasoning skills.
+=======
+A modern and interactive take on the classic code-breaking game, Mastermind! Challenge yourself (and your friends!) to guess the computer's secret code within 8 turns and sharpen your logical reasoning skills. 🚀
+>>>>>>> develop
 
 ![Mastermind Gameplay](public/mastermind_play.gif)
 
