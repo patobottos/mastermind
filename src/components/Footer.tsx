@@ -23,7 +23,7 @@ function Footer() {
         <a
           target="_blank"
           rel="noreferrer"
-          href=""
+          href="https://shop.hasbro.com/en-us"
           className="decoration-inherit text-blue-600 dark:text-blue-100 cursor-pointer"
         >
           Hapsbro Game
@@ -34,7 +34,7 @@ function Footer() {
 
       {/* Location and Date */}
       <span className="mx-2 xxs:mx-1 xs:mx-1 text-gray-700 dark:text-gray-50 cursor-pointer">
-        Barcelona, 2024
+        Barcelona, 2025
       </span>
     </div>
   );
