@@ -9,7 +9,7 @@ import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
 import dynamic from "next/dynamic";
-//import Confetti from "./Confetti";
+
 const Confetti = dynamic(() => import("./Confetti"), { ssr: false }); // Disable SSR for the Confetti component using Next.js’s dynamic import. This ensures the component only loads in the browser.
 
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -62,10 +62,7 @@ export default function Board() {
           winPercentage,
           averageTries,
         });
-
-        console.log(
-          `Total games: ${totalGames}, Wins: ${totalWins}, Win Percentage: ${winPercentage}%, Average Tries: ${averageTries}`
-        );
+        //console.log(`Total games: ${totalGames}, Wins: ${totalWins}, Win Percentage: ${winPercentage}%, Average Tries: ${averageTries}`);
       } catch (error) {
         console.error("Error fetching game stats:", error);
       }
@@ -155,8 +152,7 @@ export default function Board() {
             <Circle key={index} size="large" color={CodePosition.color} />
           ))}
         </div>
-        */
-        }
+        */}
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
@@ -198,7 +194,7 @@ export default function Board() {
           {gameState === "won" && (
             <div className="flex flex-col items-center">
               <div className="absolute top-0 right-0 z-10 pointer-events-none">
-               <Confetti/>
+                <Confetti />
               </div>
               <p className="text-pretty font-medium">
                 Congratulations! You&apos;ve won! It has taken you{" "}
@@ -219,8 +215,8 @@ export default function Board() {
           {gameState === "lost" && (
             <div className="flex flex-col items-center ">
               <p className="mx-1">
-                You&apos;ve reached the maximum number of tries. You&apos;ve lost. The
-                answer code was:
+                You&apos;ve reached the maximum number of tries. You&apos;ve
+                lost. The answer code was:
               </p>
               <div className="flex mx-1">
                 {randomCode.map((CodePosition, index) => (

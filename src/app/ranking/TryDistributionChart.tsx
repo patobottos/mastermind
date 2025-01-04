@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -31,8 +31,15 @@ const TryDistributionChart: React.FC<TryDistributionChartProps> = ({
     borderColor: "#1F2937", // Darker gray
   };
 
-  // Dynamically check if dark mode is enabled using media query
-  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  // State to track whether dark mode is enabled
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Use `useEffect` to ensure this runs only on the client side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  }, []);
 
   // Choose color scheme based on dark mode
   const { backgroundColor, borderColor } = isDarkMode ? darkModeColors : lightModeColors;
@@ -76,4 +83,3 @@ const TryDistributionChart: React.FC<TryDistributionChartProps> = ({
 };
 
 export default TryDistributionChart;
-

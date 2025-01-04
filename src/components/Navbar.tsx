@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import ThemeSwitch from "./ThemeSwitch";
 import Link from "next/link";
+import Image from "next/image";
 import { FaHouse, FaCircleInfo, FaRankingStar } from "react-icons/fa6";
 
 interface NavItem {
@@ -34,7 +35,6 @@ function Navbar() {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Ensure the theme value is available after mounting
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -48,24 +48,33 @@ function Navbar() {
             <picture>
               {mounted ? (
                 theme === "dark" ? (
-                  <img
+                  <Image
                     className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                    src="./mastermind_iso_darkmode.png"
+                    src="/mastermind_iso_darkmode.png"
                     alt="Mastermind logo for dark mode"
+                    priority
+                    width={224} // Default width for responsive design
+                    height={80} // Default height for responsive design
                   />
                 ) : (
-                  <img
+                  <Image
                     className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                    src="./mastermind_iso_lightmode.png"
+                    src="/mastermind_iso_lightmode.png"
                     alt="Mastermind logo for light mode"
+                    priority
+                    width={224}
+                    height={80}
                   />
                 )
               ) : (
                 // Show a placeholder during initial render
-                <img
+                <Image
                   className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                  src="./mastermind_iso_darkmode.png" // Default to dark mode logo
+                  src="/mastermind_iso_darkmode.png" // Default to dark mode logo
                   alt="Mastermind logo loading..."
+                  priority
+                  width={224}
+                  height={80}
                 />
               )}
             </picture>
@@ -75,13 +84,11 @@ function Navbar() {
         {/* MENU */}
         <div className="flex items-center space-x-2">
           <ul className="flex items-center p-1">
-            {NAV_ITEMS.map((item, index) => {
-              return (
-                <li key={index} className="mx-2">
-                  <Link href={item.page}>{item.icon}</Link>
-                </li>
-              );
-            })}
+            {NAV_ITEMS.map((item, index) => (
+              <li key={index} className="mx-2">
+                <Link href={item.page}>{item.icon}</Link>
+              </li>
+            ))}
           </ul>
 
           {/* MODE SWITCHER */}
@@ -93,4 +100,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
