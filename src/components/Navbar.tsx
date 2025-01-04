@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
 import ThemeSwitch from "./ThemeSwitch";
 import Link from "next/link";
 import { FaHouse, FaCircleInfo, FaRankingStar } from "react-icons/fa6";
@@ -33,6 +32,12 @@ const NAV_ITEMS: Array<NavItem> = [
 
 function Navbar() {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure the theme value is available after mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="w-full mx-auto border-b p-4 flex items-center">
@@ -41,17 +46,26 @@ function Navbar() {
         <div>
           <Link href="/">
             <picture>
-              {theme === "dark" ? (
-                <img
-                  className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                  src="./mastermind_iso_darkmode.png"
-                  alt="Mastermind logo for dark mode"
-                />
+              {mounted ? (
+                theme === "dark" ? (
+                  <img
+                    className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
+                    src="./mastermind_iso_darkmode.png"
+                    alt="Mastermind logo for dark mode"
+                  />
+                ) : (
+                  <img
+                    className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
+                    src="./mastermind_iso_lightmode.png"
+                    alt="Mastermind logo for light mode"
+                  />
+                )
               ) : (
+                // Show a placeholder during initial render
                 <img
                   className="max-w-[full] h-auto w-[14rem] xxs:w-[6rem] xs:w-[8rem] sm:w-[10rem] md:w-[12rem]"
-                  src="./mastermind_iso_lightmode.png"
-                  alt="Mastermind logo for light mode"
+                  src="./mastermind_iso_darkmode.png" // Default to dark mode logo
+                  alt="Mastermind logo loading..."
                 />
               )}
             </picture>
@@ -77,4 +91,6 @@ function Navbar() {
     </header>
   );
 }
+
 export default Navbar;
+

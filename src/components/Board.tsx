@@ -8,11 +8,10 @@ import ColorButtonRow from "./ColorButtonRow";
 import AnswerRow from "./AnswerRow";
 import CheckButton from "./CheckButton";
 import NewGameButton from "./NewGameButton";
-// import Lottie from "lottie-react";
-// import confetti from "@/app/assets/confetti.json";
-import Confetti from "./Confetti";
+import dynamic from "next/dynamic";
+//import Confetti from "./Confetti";
+const Confetti = dynamic(() => import("./Confetti"), { ssr: false }); // Disable SSR for the Confetti component using Next.js’s dynamic import. This ensures the component only loads in the browser.
 
-//import FirebaseTest from "./FirebaseTest";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "@/utilities/firebaseConfig";
 
