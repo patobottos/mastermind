@@ -1,20 +1,25 @@
 "use client";
 
-import React from "react";
-import Lottie from 'lottie-react';
+import React, { FC } from "react";
+import Lottie from "lottie-react";
 import confetti from "@/app/assets/confetti.json";
 
-function Confetti() {
+interface ConfettiProps {
+  loop?: boolean;
+  autoplay?: boolean;
+}
+
+const Confetti: FC<ConfettiProps> = ({ loop = true, autoplay = true }) => {
   return (
     <Lottie
       animationData={confetti}
-      loop={true}
-      autoplay={true}
+      loop={loop}
+      autoplay={autoplay}
       rendererSettings={{
         preserveAspectRatio: "xMidYMid slice",
       }}
     />
   );
-}
+};
 
 export default Confetti;
