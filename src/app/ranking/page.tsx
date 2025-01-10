@@ -15,10 +15,13 @@ const RankingPage = () => {
   const [losePercentage, setLosePercentage] = useState(0);
   const [tryDistribution, setTryDistribution] = useState(new Array(8).fill(0)); // For tries 1-8
   const [fastestWin, setFastestWin] = useState(0);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState<string | null>(null); // Add error state
 
   useEffect(() => {
     const fetchGameData = async () => {
       try {
+        setLoading(true); // Start loading
         const gamesCollection = collection(db, "games");
         const gameSnapshot = await getDocs(gamesCollection);
 
@@ -47,23 +50,41 @@ const RankingPage = () => {
         const avgTries = totalGamesCount > 0 ? Math.round(totalTries / totalGamesCount) : 0;
         const fastestWinFinal = fastestWinTry === Number.MAX_SAFE_INTEGER ? 0 : fastestWinTry;
 
+        // Update state
         setTotalGames(totalGamesCount);
         setAverageTries(avgTries);
         setWinPercentage(winRate);
         setLosePercentage(loseRate);
         setTryDistribution(triesDistribution);
         setFastestWin(fastestWinFinal);
-      } catch (error) {
-        console.error("Error fetching game data:", error);
+
+        setError(null); // Clear any previous errors
+      } catch (err) {
+        console.error("Error fetching game data:", err);
+        setError("Failed to load game statistics. Please try again later.");
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
     fetchGameData();
   }, []);
 
+  if (loading) {
+    return <p className="text-center mt-8">Loading game statistics...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center mt-8">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-12">
-      {/* Top Section - Total Games & Average Tries & Fastest Win */}
+      {/* Top Section - Total Games, Average Tries & Fastest Win */}
       <RankingTopSection totalGames={totalGames} averageTries={averageTries} fastestWin={fastestWin} />
 
       {/* Middle Section - Win Percentage */}
@@ -83,4 +104,3 @@ const RankingPage = () => {
 };
 
 export default RankingPage;
-
