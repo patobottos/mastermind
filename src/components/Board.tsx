@@ -17,9 +17,6 @@ import { db } from "@/utilities/firebaseConfig";
 import ErrorMessage from "./ErrorMessage";
 import GameOverScreen from "./GameOverScreen";
 
-// Dynamically import Confetti with SSR disabled to fix the "document is not defined" error
-const Confetti = dynamic(() => import("./Confetti"), { ssr: false });
-
 type GameStats = {
   totalGames: number;
   winPercentage: number;
