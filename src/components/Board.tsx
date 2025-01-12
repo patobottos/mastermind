@@ -69,13 +69,17 @@ export default function Board() {
     };
 
     initializeGame();
+    setIsGuessComplete(false);
     setIsInitialized(true);
     fetchGameStats();
   }, [initializeGame]);
 
   // Check if the guess is complete
   useEffect(() => {
-    if (playerGuesses.length === 0) return;
+    if (tryNumber <= 0 || playerGuesses.length === 0) {
+      setIsGuessComplete(false);
+      return;
+  }
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     const complete = currentGuess.every(
@@ -145,14 +149,6 @@ export default function Board() {
   return (
     <div className="flex flex-col items-center relative text-light-text dark:text-dark-text">
       <div className="flex flex-col items-center justify-center mb-2">
-        {/* ONLY FOR TESTING PURPOSES
-        <p>Random Generated Code:</p>
-        <div className="flex">
-          {randomCode.map((CodePosition, index) => (
-            <Circle key={index} size="large" color={CodePosition.color} />
-          ))}
-        </div>
-        */}
         {tryNumber <= 7 ? (
           <p>You have {9 - tryNumber} tries left. </p>
         ) : (
