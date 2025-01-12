@@ -13,7 +13,7 @@ const Rules = () => {
           How to Play Mastermind
         </h2>
 
-        <ol className="list-decimal list-inside space-y-4 text-lg leading-relaxed">
+        <ol className="list-decimal list-inside space-y-4 text-lg leading-relaxed mb-10">
           <li>
             <strong>Objective:</strong> The goal is for you, the player, to
             guess a hidden color code set by the computer.
@@ -64,7 +64,7 @@ const Rules = () => {
                   in the wrong position.
                 </li>
                 <li>
-                  <em>Transparent Peg:</em> That color isn’t in the code at all.
+                  <strong>Transparent Peg:</strong> That color isn’t in the code at all.
                 </li>
               </ul>
             </ul>
