@@ -15,7 +15,6 @@ const Confetti = dynamic(() => import("./Confetti"), { ssr: false }); // Disable
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "@/utilities/firebaseConfig";
 import ErrorMessage from "./ErrorMessage";
-import GameOverScreen from "./GameOverScreen";
 
 type GameStats = {
   totalGames: number;
