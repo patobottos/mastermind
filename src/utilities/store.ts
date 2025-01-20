@@ -75,11 +75,21 @@ export const useGameStore = create<GameState>((set, get) => ({
       const newEvaluations = [...state.evaluations];
       newEvaluations[currentTry] = evaluation;
 
+      const newPlayerGuesses = [...state.playerGuesses];
+      if (!isCorrect && state.tryNumber < 8) {
+        // Add a new empty guess for the next try
+        newPlayerGuesses.push({
+          tryNumber: state.tryNumber + 1,
+          guess: Array(5).fill({ position: 0, color: "transparent" }),
+        });
+      }
+
       return {
         evaluations: newEvaluations,
+        playerGuesses: newPlayerGuesses,
         tryNumber: isCorrect ? state.tryNumber : state.tryNumber + 1,
         gameState: isCorrect ? "won" : state.tryNumber < 8 ? "playing" : "lost",
-        isCorrect, // Store derived state
+        isCorrect,
       };
     }),
 }));

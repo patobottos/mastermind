@@ -94,7 +94,7 @@ export default function Board() {
     if (tryNumber <= 0 || playerGuesses.length === 0) {
       setIsGuessComplete(false);
       return;
-  }
+    }
     const currentGuess =
       playerGuesses[tryNumber - 1]?.guess || initialColorValues;
     const complete = currentGuess.every(
@@ -153,6 +153,7 @@ export default function Board() {
       return;
     }
     evaluateGuess();
+    setIsGuessComplete(false); // Disable the button after checking
   };
 
   /**
