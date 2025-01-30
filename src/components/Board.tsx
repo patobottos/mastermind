@@ -176,10 +176,10 @@ export default function Board() {
       </div>
 
       {/* THESE ARE THE 8 ROWS CORRESPONDING TO THE 8 GUESS TRIES */}
-      <div className="flex flex-col justify-center mx-20">
+      <div className="flex flex-col justify-center w-full max-w-md px-2">
         {playersChances.map((_, index) => (
-          <div key={index} className="flex justify-center py-1 items-center">
-            <div className="col-span-1 mr-1 sm:mr-4">
+          <div key={index} className="flex justify-between py-1 items-center">
+            <div className="flex-grow mr-1 sm:mr-2">
               <ColorButtonRow
                 key={`color-row-${index}-${tryNumber}`}
                 guessingCode={playerGuesses[index]?.guess || initialColorValues}
@@ -190,7 +190,7 @@ export default function Board() {
                 isEnabled={index + 1 === tryNumber && gameState === "playing"}
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-[] col-span-1">
               <AnswerRow evaluation={evaluations[index]} />
             </div>
           </div>

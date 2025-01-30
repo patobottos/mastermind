@@ -26,7 +26,7 @@ export default function Circle({ size, color }: CircleProps) {
 
   return (
     <div
-      className={`${sizeVariants[size]} ${colorVariants[color]} border-2 border-gray-600 m-1 rounded-full hover:brightness-[.8]`}
+      className={`${sizeVariants[size]} ${colorVariants[color]} border-2 border-gray-600 m-[2px] sm:m-1 rounded-full hover:brightness-[.8]`}
     ></div>
   );
 }

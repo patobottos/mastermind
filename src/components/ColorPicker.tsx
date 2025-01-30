@@ -13,7 +13,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-32 h-32 x-wrap">
+    <div className="flex flex-col items-center justify-center w-28 h-28 sm:w-32 sm:h-32 x-wrap">
       {/* SMALL TRIANGLE ON TOP*/}
       <div
         className="w-0 h-0 
@@ -22,7 +22,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           border-r-[6px] border-r-transparent"
       ></div>
       <div className="flex border-2 border-slate-600 dark:border-slate-800 bg-slate-400 dark:bg-slate-700 rounded-xl p-1 shadow-lg">
-        <fieldset className="grid grid-cols-3 gap-1">
+        <fieldset className="grid grid-cols-3 sm:gap-1">
           {colors.map((color) => (
             <label
               key={color}

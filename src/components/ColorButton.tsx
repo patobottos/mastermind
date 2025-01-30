@@ -44,7 +44,7 @@ export default function ColorButton({
   onToggle,
 }: ColorButtonProps) {
   const sizeVariants = {
-    small: "h-4 w-4",
+    small: "h-3 w-3",
     medium: "h-7 w-7",
     large: "h-9 w-9",
   };
@@ -72,10 +72,10 @@ export default function ColorButton({
     <div className="relative">
       <button
         onClick={onToggle}
-        className={`h-10 w-10 border-2 m-1 border-slate-500 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
+        className={`h-10 w-10 border-2 m-[2px] sm:m-1 border-slate-500 rounded-full hover:brightness-[.8] ${colorStyles} ${sizeVariants[size]}`}
       ></button>
       {isOpen && (
-        <div className="absolute z-10 top-10 left-1/2 transform -translate-x-1/2">
+        <div className="absolute z-10 top-8 left-1/2 transform -translate-x-1/2">
           <ColorPicker
             colors={Object.keys(radioColorVariants) as radioColorValues[]}
             defaultColor={radioColorValues.transparent}
